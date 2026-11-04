@@ -131,7 +131,7 @@
                 </svg>
                 <span>
                     <span class="brand-name">Gulliver’s Travels</span>
-                    <span class="brand-sub">Academic Book Report • Group 3</span>
+                    <span class="brand-sub">An Academic Book Report &amp; Satirical Analysis</span>
                 </span>
             </a>
 
@@ -152,7 +152,9 @@
                     </div>
                 </div>
                 <a href="#summary">Summary</a>
+                <a href="#cartography">Sea Chart</a>
                 <a href="#plot">Plot</a>
+                <a href="#psychology">Descent Tracker</a>
                 <div class="dd">
                     <button type="button" aria-expanded="false" id="places-dropdown-btn">Places
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M19 9l-7 7-7-7"/></svg>
@@ -163,10 +165,28 @@
                         <a href="#brobdingnag">2. Brobdingnag <small>The Land of Colossal Giants</small></a>
                         <a href="#laputa">3. Laputa <small>The Floating Sky Island of Scholars</small></a>
                         <a href="#houyhnhnms">4. Land of the Houyhnhnms <small>The Realm of Virtuous Horses</small></a>
+                        <a href="#scale-simulator">Optical Scale Simulator <small>1:12 vs 12:1 Inversion</small></a>
                     </div>
                 </div>
-                <a href="#references">Real-Life References</a>
+                <a href="#matrix">Voyage Matrix</a>
+                <a href="#references">References</a>
+                <a href="#satire-lab">Satire Lab</a>
+                <a href="#glossary">Glossary</a>
                 <a href="#main-lesson" class="btn">Main Lesson</a>
+
+                <!-- Interactive Nav Controls: Audio, Theme & Cite -->
+                <div class="nav-tools">
+                    <button id="audio-toggle" class="tool-btn" type="button" title="Toggle Sea Ambiance" aria-label="Toggle Sea Ambiance" aria-pressed="false">
+                        <span class="audio-waves" aria-hidden="true">
+                            <i></i><i></i><i></i><i></i>
+                        </span>
+                        <svg class="audio-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                    </button>
+                    <button id="theme-toggle" class="tool-btn" type="button" title="Switch Reading Mode" aria-label="Switch Reading Mode">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
+                    <button id="cite-btn" class="tool-btn cite-pill" type="button" title="Cite This Academic Report">Cite Report</button>
+                </div>
             </nav>
 
             <button id="mobile-menu-btn" class="menu-btn" type="button" aria-label="Toggle navigation menu" aria-expanded="false">
@@ -195,7 +215,9 @@
             </div>
         </div>
         <a href="#summary" class="mobile-nav-link">Summary</a>
+        <a href="#cartography" class="mobile-nav-link">1726 Nautical Voyage Chart</a>
         <a href="#plot" class="mobile-nav-link">Plot Structure</a>
+        <a href="#psychology" class="mobile-nav-link">Gulliver’s Descent Tracker</a>
         <div class="acc">
             <button id="mobile-places-btn" type="button">
                 <span>Places</span>
@@ -207,10 +229,29 @@
                 <a href="#brobdingnag" class="mobile-nav-link">Part II: Brobdingnag</a>
                 <a href="#laputa" class="mobile-nav-link">Part III: Laputa</a>
                 <a href="#houyhnhnms" class="mobile-nav-link">Part IV: Houyhnhnmland</a>
+                <a href="#scale-simulator" class="mobile-nav-link">Optical Scale Simulator</a>
             </div>
         </div>
+        <a href="#matrix" class="mobile-nav-link">Voyage Comparison Matrix</a>
         <a href="#references" class="mobile-nav-link">Real-Life References</a>
+        <a href="#satire-lab" class="mobile-nav-link">Satire Lab &amp; Quiz</a>
+        <a href="#glossary" class="mobile-nav-link">Swiftian Lexicon &amp; Etymology</a>
         <a href="#main-lesson" class="mobile-nav-link btn drawer-cta">Main Lesson: The Cost of Arrogance</a>
+        
+        <div class="mobile-tools">
+            <button id="mobile-audio-toggle" class="tool-btn-mobile" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <span id="mobile-audio-text">Toggle Sea Ambiance</span>
+            </button>
+            <button id="mobile-theme-toggle" class="tool-btn-mobile" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>
+                <span id="mobile-theme-text">Reading Mode: Parchment</span>
+            </button>
+            <button id="mobile-cite-btn" class="tool-btn-mobile" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+                <span>Cite This Report (MLA/APA)</span>
+            </button>
+        </div>
     </div>
 
     <!-- Ship's log readout -->
@@ -251,7 +292,7 @@
                 <p class="hero-meta fade-in" id="hero-meta">
                     <span>Travels into Several Remote Nations of the World</span>
                     <span>In Four Parts</span>
-                    <span>Academic Book Report • Group 3</span>
+                    <span>An In-Depth Literary &amp; Historical Analysis</span>
                 </p>
 
                 <!-- The telescope view -->
@@ -277,8 +318,8 @@
                     <div class="facts">
                         <div class="fact" data-reveal style="--i:0"><b>1726</b><span>First Published</span></div>
                         <div class="fact" data-reveal style="--i:1"><b>4 Books</b><span>Distinct Voyages</span></div>
-                        <div class="fact" data-reveal style="--i:2"><b>Satire</b><span>Genre & Form</span></div>
-                        <div class="fact" data-reveal style="--i:3"><b>Group 3</b><span>Report Curators</span></div>
+                        <div class="fact" data-reveal style="--i:2"><b>Satire</b><span>Genre &amp; Form</span></div>
+                        <div class="fact" data-reveal style="--i:3"><b>16 Years</b><span>Gulliver’s Odyssey</span></div>
                     </div>
                 </div>
             </section>
@@ -346,99 +387,171 @@
                         </div>
                     </div>
 
-                    <ol class="cast">
+                    <!-- Interactive Voyage Filter Bar -->
+                    <div class="cast-filter-bar" data-reveal>
+                        <span class="cast-filter-label">Filter Cast by Voyage:</span>
+                        <div class="cast-filters" role="tablist" aria-label="Character voyage filter">
+                            <button class="cast-pill is-active" data-filter="all" type="button">All Cast (6)</button>
+                            <button class="cast-pill" data-filter="1" type="button">Voyage I: Lilliput</button>
+                            <button class="cast-pill" data-filter="2" type="button">Voyage II: Brobdingnag</button>
+                            <button class="cast-pill" data-filter="3" type="button">Voyage III: Laputa</button>
+                            <button class="cast-pill" data-filter="4" type="button">Voyage IV: Houyhnhnms</button>
+                        </div>
+                    </div>
+
+                    <ol class="cast" id="cast-list">
                         <!-- Character 1: Lemuel Gulliver -->
-                        <li id="char-gulliver" class="cast-row">
-                            <div class="cast-thumb" data-reveal><div role="img" aria-label="Detail of Gulliver's face from the Lilliput engraving" style="background-image:url(assets/images/lilliput.jpg);background-size:380%;background-position:31% 22%"></div></div>
+                        <li id="char-gulliver" class="cast-row" data-voyage="1,2,3,4">
+                            <div class="cast-thumb-3d-wrap" data-reveal>
+                                <div class="card-3d" data-tilt data-lightbox-src="assets/images/lilliput.jpg" data-lightbox-cap="Lemuel Gulliver pinned fast upon the sands of Lilliput — 1726 Engraving">
+                                    <div class="card-3d-inner">
+                                        <div class="card-3d-bg" role="img" aria-label="Detail of Gulliver's face from the Lilliput engraving" style="background-image:url(assets/images/lilliput.jpg);background-size:380%;background-position:31% 22%"></div>
+                                        <div class="card-3d-glare" aria-hidden="true"></div>
+                                        <div class="card-3d-shading" aria-hidden="true"></div>
+                                        <span class="card-3d-tag">Voyages I–IV</span>
+                                        <div class="card-3d-zoom-hint" title="Click to view full engraving" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="cast-head" data-reveal style="--i:1">
                                 <span class="cast-tag"><b>Protagonist • Narrator</b> · Voyages I–IV</span>
                                 <h3 class="h3">Lemuel Gulliver</h3>
-                                <h4>The Naive Traveler & Ship Surgeon</h4>
+                                <h4>The Naive Traveler &amp; Ship Surgeon</h4>
                             </div>
                             <div class="cast-body" data-reveal style="--i:2">
-                                <!-- Add Character details here -->
                                 <p>Gulliver is an educated Englishman who begins his journey as an optimistic, literal-minded observer. Over four distinct voyages, his naivety is systematically stripped away. Initially proud of England, he ends as a thoroughly disillusioned misanthrope who cannot endure the sight or smell of his fellow humans.</p>
-                                <!-- [Insert text here for extra character notes] -->
                                 <p class="cast-sym"><b>Symbolism</b>The average human ego forced to confront its true ugliness and insignificance.</p>
                             </div>
                         </li>
 
                         <!-- Character 2: Emperor of Lilliput -->
-                        <li id="char-lilliput-emperor" class="cast-row">
-                            <div class="cast-thumb" data-reveal><div role="img" aria-label="Detail of Lilliputian soldiers and cannon from the Lilliput engraving" style="background-image:url(assets/images/lilliput.jpg);background-size:300%;background-position:96% 86%"></div></div>
+                        <li id="char-lilliput-emperor" class="cast-row" data-voyage="1">
+                            <div class="cast-thumb-3d-wrap" data-reveal>
+                                <div class="card-3d" data-tilt data-lightbox-src="assets/images/lilliput.jpg" data-lightbox-cap="Miniature Lilliputian army marching past the Man-Mountain — 1726 Engraving">
+                                    <div class="card-3d-inner">
+                                        <div class="card-3d-bg" role="img" aria-label="Detail of Lilliputian soldiers and cannon from the Lilliput engraving" style="background-image:url(assets/images/lilliput.jpg);background-size:300%;background-position:96% 86%"></div>
+                                        <div class="card-3d-glare" aria-hidden="true"></div>
+                                        <div class="card-3d-shading" aria-hidden="true"></div>
+                                        <span class="card-3d-tag">Voyage I</span>
+                                        <div class="card-3d-zoom-hint" title="Click to view full engraving" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="cast-head" data-reveal style="--i:1">
                                 <span class="cast-tag"><b>Antagonist • Sovereign</b> · Voyage I: Lilliput</span>
                                 <h3 class="h3">Emperor of Lilliput</h3>
                                 <h4>The Six-Inch Autocrat (Golbasto Momaren)</h4>
                             </div>
                             <div class="cast-body" data-reveal style="--i:2">
-                                <!-- Add Character details here -->
                                 <p>Despite standing less than six inches tall, the Emperor possesses monstrous delusions of grandeur. He styles himself the "Delight of the Universe" and expects Gulliver to reduce the rival island of Blefuscu into an enslaved province. When Gulliver declines to butcher innocents, the Emperor sentences him to be blinded and starved.</p>
-                                <!-- [Insert text here for Emperor analysis] -->
                                 <p class="cast-sym"><b>Symbolism</b>The megalomania and ingratitude of European monarchs (specifically King George I).</p>
                             </div>
                         </li>
 
                         <!-- Character 3: Glumdalclitch & King of Brobdingnag -->
-                        <li id="char-glumdalclitch" class="cast-row">
-                            <div class="cast-thumb" data-reveal><div role="img" aria-label="Detail of the King and Queen of Brobdingnag at their table" style="background-image:url(assets/images/brobdingnag.jpg);background-size:260%;background-position:52% 36%"></div></div>
+                        <li id="char-glumdalclitch" class="cast-row" data-voyage="2">
+                            <div class="cast-thumb-3d-wrap" data-reveal>
+                                <div class="card-3d" data-tilt data-lightbox-src="assets/images/brobdingnag.jpg" data-lightbox-cap="Gulliver at the Royal Table before the giant King and Queen of Brobdingnag — 1726 Engraving">
+                                    <div class="card-3d-inner">
+                                        <div class="card-3d-bg" role="img" aria-label="Detail of the King and Queen of Brobdingnag at their table" style="background-image:url(assets/images/brobdingnag.jpg);background-size:260%;background-position:52% 36%"></div>
+                                        <div class="card-3d-glare" aria-hidden="true"></div>
+                                        <div class="card-3d-shading" aria-hidden="true"></div>
+                                        <span class="card-3d-tag">Voyage II</span>
+                                        <div class="card-3d-zoom-hint" title="Click to view full engraving" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="cast-head" data-reveal style="--i:1">
                                 <span class="cast-tag"><b>Giants • Protectors</b> · Voyage II: Brobdingnag</span>
-                                <h3 class="h3">Glumdalclitch & The King</h3>
-                                <h4>The Loving Nurse & Philosopher Monarch</h4>
+                                <h3 class="h3">Glumdalclitch &amp; The King</h3>
+                                <h4>The Loving Nurse &amp; Philosopher Monarch</h4>
                             </div>
                             <div class="cast-body" data-reveal style="--i:2">
-                                <!-- Add Character details here -->
                                 <p>Nine-year-old giantess Glumdalclitch ("little nurse") treats Gulliver with tender affection like a doll. Her wise monarch, the King of Brobdingnag, embodies moral statesmanship. After patiently listening to Gulliver boast of European politics and gunpowder, the King recoils in horror, deeming Europeans the most pernicious vermin on earth.</p>
-                                <!-- [Insert text here for Brobdingnagian analysis] -->
                                 <p class="cast-sym"><b>Symbolism</b>Enlightened moral government contrasted against corrupt warmongering empires.</p>
                             </div>
                         </li>
 
                         <!-- Character 4: Laputan Academicians -->
-                        <li id="char-laputa-intellectuals" class="cast-row">
-                            <div class="cast-thumb" data-reveal><div role="img" aria-label="Detail of the Laputan astronomers with their telescopes" style="background-image:url(assets/images/laputa.jpg);background-size:330%;background-position:50% 14%"></div></div>
+                        <li id="char-laputa-intellectuals" class="cast-row" data-voyage="3">
+                            <div class="cast-thumb-3d-wrap" data-reveal>
+                                <div class="card-3d" data-tilt data-lightbox-src="assets/images/laputa.jpg" data-lightbox-cap="Laputan astronomers stargazing from the levitating magnetic island — 1726 Engraving">
+                                    <div class="card-3d-inner">
+                                        <div class="card-3d-bg" role="img" aria-label="Detail of the Laputan astronomers with their telescopes" style="background-image:url(assets/images/laputa.jpg);background-size:330%;background-position:50% 14%"></div>
+                                        <div class="card-3d-glare" aria-hidden="true"></div>
+                                        <div class="card-3d-shading" aria-hidden="true"></div>
+                                        <span class="card-3d-tag">Voyage III</span>
+                                        <div class="card-3d-zoom-hint" title="Click to view full engraving" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="cast-head" data-reveal style="--i:1">
                                 <span class="cast-tag"><b>Theorists • Projectors</b> · Voyage III: Laputa</span>
                                 <h3 class="h3">Laputan Intellectuals</h3>
                                 <h4>The Flying Absent-Minded Theorists</h4>
                             </div>
                             <div class="cast-body" data-reveal style="--i:2">
-                                <!-- Add Character details here -->
                                 <p>Aristocrats and scholars with one eye turned inward and the other toward the zenith. They are so entirely consumed by abstract mathematics and astrology that they require servants called "Flappers" to strike their mouths and ears with bladders to hold a conversation, while their subjects below live in utter ruin.</p>
-                                <!-- [Insert text here for Laputa character analysis] -->
                                 <p class="cast-sym"><b>Symbolism</b>Impractical scientific hubris, pedantry, and ivory-tower intellectual detachment.</p>
                             </div>
                         </li>
 
                         <!-- Character 5: Master Houyhnhnm -->
-                        <li id="char-houyhnhnms" class="cast-row">
-                            <div class="cast-thumb" data-reveal><div role="img" aria-label="Detail of the two noble Houyhnhnm horses" style="background-image:url(assets/images/houyhnhnm.jpg);background-size:280%;background-position:62% 34%"></div></div>
+                        <li id="char-houyhnhnms" class="cast-row" data-voyage="4">
+                            <div class="cast-thumb-3d-wrap" data-reveal>
+                                <div class="card-3d" data-tilt data-lightbox-src="assets/images/houyhnhnm.jpg" data-lightbox-cap="Lemuel Gulliver conversing with the noble Houyhnhnm horses — 1726 Engraving">
+                                    <div class="card-3d-inner">
+                                        <div class="card-3d-bg" role="img" aria-label="Detail of the two noble Houyhnhnm horses" style="background-image:url(assets/images/houyhnhnm.jpg);background-size:280%;background-position:62% 34%"></div>
+                                        <div class="card-3d-glare" aria-hidden="true"></div>
+                                        <div class="card-3d-shading" aria-hidden="true"></div>
+                                        <span class="card-3d-tag">Voyage IV</span>
+                                        <div class="card-3d-zoom-hint" title="Click to view full engraving" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="cast-head" data-reveal style="--i:1">
                                 <span class="cast-tag"><b>Rational Beings</b> · Voyage IV: Houyhnhnms</span>
                                 <h3 class="h3">Master Houyhnhnm</h3>
-                                <h4>The Paragon of Pure Reason & Virtue</h4>
+                                <h4>The Paragon of Pure Reason &amp; Virtue</h4>
                             </div>
                             <div class="cast-body" data-reveal style="--i:2">
-                                <!-- Add Character details here -->
                                 <p>A noble gray horse who takes Gulliver into his household. The Houyhnhnms possess no concept of lying ("saying the thing which was not"), war, deceit, or pride. Guided solely by reason and benevolence, Master Houyhnhnm listens to Gulliver’s accounts of Europe with bewildered pity.</p>
-                                <!-- [Insert text here for Houyhnhnm character analysis] -->
                                 <p class="cast-sym"><b>Symbolism</b>The ideal of Stoic reason, devoid of human passion, deception, and greed.</p>
                             </div>
                         </li>
 
                         <!-- Character 6: The Yahoos -->
-                        <li id="char-yahoos" class="cast-row">
-                            <div class="cast-thumb" data-reveal><div role="img" aria-label="Detail of the brawling Yahoos from the Houyhnhnm engraving" style="background-image:url(assets/images/houyhnhnm.jpg);background-size:330%;background-position:16% 40%"></div></div>
+                        <li id="char-yahoos" class="cast-row" data-voyage="4">
+                            <div class="cast-thumb-3d-wrap" data-reveal>
+                                <div class="card-3d" data-tilt data-lightbox-src="assets/images/houyhnhnm.jpg" data-lightbox-cap="Savage humanoid Yahoos battling in the pastures — 1726 Engraving">
+                                    <div class="card-3d-inner">
+                                        <div class="card-3d-bg" role="img" aria-label="Detail of the brawling Yahoos from the Houyhnhnm engraving" style="background-image:url(assets/images/houyhnhnm.jpg);background-size:330%;background-position:16% 40%"></div>
+                                        <div class="card-3d-glare" aria-hidden="true"></div>
+                                        <div class="card-3d-shading" aria-hidden="true"></div>
+                                        <span class="card-3d-tag">Voyage IV</span>
+                                        <div class="card-3d-zoom-hint" title="Click to view full engraving" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="cast-head" data-reveal style="--i:1">
                                 <span class="cast-tag"><b>Beasts • Humans In Disguise</b> · Voyage IV: Houyhnhnms</span>
                                 <h3 class="h3">The Yahoos</h3>
                                 <h4>Humankind’s Brutish Naked Twin</h4>
                             </div>
                             <div class="cast-body" data-reveal style="--i:2">
-                                <!-- Add Character details here -->
                                 <p>Degenerate, filthy, and avaricious humanoid beasts kept as draft animals by the Houyhnhnms. Gulliver is terrified and repulsed when he recognizes that their anatomical form is identical to his own, exposing humanity's base animal instincts when stripped of clothes and social etiquette.</p>
-                                <!-- [Insert text here for Yahoos character analysis] -->
                                 <p class="cast-sym"><b>Symbolism</b>Unvarnished human savagery, greed, lust, and bodily decay.</p>
                             </div>
                         </li>
@@ -485,7 +598,7 @@
                             By the conclusion of his wanderings, Gulliver cannot return to English society without feeling overwhelming disgust toward his own wife and children. Swift leaves his audience with an unsettling philosophical question: is humanity truly a rational species, or merely an arrogant animal blessed with just enough reason to aggravate its vices?
                         </p>
                         <!-- [Insert text here for extra summary additions] -->
-                        <p class="summary-foot" data-reveal>Academic Analysis • Group 3</p>
+                        <p class="summary-foot" data-reveal>Literary Analysis • Jonathan Swift’s Satirical Masterpiece</p>
                     </div>
                 </div>
             </section>
@@ -499,6 +612,118 @@
         </div>
 
         <div class="sheet" data-scene="day">
+            <!-- ====================================================
+                 4B. 1726 NAUTICAL CARTOGRAPHY & VOYAGE WAYPOINTS
+                 ==================================================== -->
+            <section id="cartography" class="section chart-sec" data-log="1699–1715|1726 Nautical Cartography">
+                <div class="wrap">
+                    <div class="opener">
+                        <p class="opener-note" data-reveal>18th-century maritime navigation</p>
+                        <div class="opener-main">
+                            <h2 class="h2 split">1726 Nautical Cartography</h2>
+                            <p class="lede" data-reveal style="--i:2">Jonathan Swift embedded authentic nautical coordinates and ship logs to disguise his moral satire as a genuine merchant travelogue.</p>
+                        </div>
+                    </div>
+
+                    <div class="chart-container" data-reveal>
+                        <div class="chart-header">
+                            <span class="chart-tag">Archival Chart Analysis</span>
+                            <h3 class="chart-title">The Four Fictional Maritime Tracks</h3>
+                            <p class="chart-subtitle">Select a voyage to plot coordinates, inspect vessels, and decode Swift’s cartographic illusions.</p>
+                            
+                            <div class="chart-tabs" role="tablist" aria-label="Select voyage track">
+                                <button class="chart-tab is-active" data-v="1" type="button">Voyage I (1699)</button>
+                                <button class="chart-tab" data-v="2" type="button">Voyage II (1702)</button>
+                                <button class="chart-tab" data-v="3" type="button">Voyage III (1706)</button>
+                                <button class="chart-tab" data-v="4" type="button">Voyage IV (1710)</button>
+                            </div>
+                        </div>
+
+                        <div class="chart-body">
+                            <!-- Visual Antique Compass & Map Frame -->
+                            <div class="chart-map-frame">
+                                <div class="chart-parchment">
+                                    <svg class="chart-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                        <!-- Rhumb navigation lines -->
+                                        <g stroke="rgba(138, 101, 38, 0.22)" stroke-width="0.8" fill="none">
+                                            <line x1="300" y1="200" x2="0" y2="50"/>
+                                            <line x1="300" y1="200" x2="600" y2="50"/>
+                                            <line x1="300" y1="200" x2="0" y2="350"/>
+                                            <line x1="300" y1="200" x2="600" y2="350"/>
+                                            <line x1="300" y1="0" x2="300" y2="400"/>
+                                            <line x1="0" y1="200" x2="600" y2="200"/>
+                                            <circle cx="300" cy="200" r="160" stroke-dasharray="3,3"/>
+                                            <circle cx="300" cy="200" r="80"/>
+                                        </g>
+
+                                        <!-- Compass Rose -->
+                                        <g transform="translate(480, 90)">
+                                            <circle cx="0" cy="0" r="42" fill="none" stroke="rgba(138, 101, 38, 0.4)" stroke-width="1.2"/>
+                                            <polygon points="0,-40 6,-12 0,-18 -6,-12" fill="#b33d28"/>
+                                            <polygon points="0,40 6,12 0,18 -6,12" fill="#8a6526"/>
+                                            <polygon points="40,0 12,6 18,0 12,-6" fill="#8a6526"/>
+                                            <polygon points="-40,0 -12,6 -18,0 -12,-6" fill="#8a6526"/>
+                                            <text x="0" y="-45" text-anchor="middle" font-family="Fraunces, serif" font-size="11" fill="#b33d28">N</text>
+                                            <text x="0" y="55" text-anchor="middle" font-family="Fraunces, serif" font-size="9" fill="#8a6526">S</text>
+                                            <text x="52" y="3" text-anchor="middle" font-family="Fraunces, serif" font-size="9" fill="#8a6526">E</text>
+                                            <text x="-52" y="3" text-anchor="middle" font-family="Fraunces, serif" font-size="9" fill="#8a6526">W</text>
+                                        </g>
+
+                                        <!-- Voyage Routes (interactive) -->
+                                        <path id="route-line-1" class="chart-route active" d="M120 110 Q220 280 430 310" fill="none" stroke="#b33d28" stroke-width="2.5" stroke-dasharray="6,4"/>
+                                        <path id="route-line-2" class="chart-route" d="M120 110 Q280 180 500 130" fill="none" stroke="#8a6526" stroke-width="2.5" stroke-dasharray="6,4"/>
+                                        <path id="route-line-3" class="chart-route" d="M120 110 Q320 120 540 180" fill="none" stroke="#2b6782" stroke-width="2.5" stroke-dasharray="6,4"/>
+                                        <path id="route-line-4" class="chart-route" d="M120 110 Q260 320 400 340" fill="none" stroke="#2f6b4f" stroke-width="2.5" stroke-dasharray="6,4"/>
+
+                                        <!-- Origin: England -->
+                                        <circle cx="120" cy="110" r="5" fill="#1b2326"/>
+                                        <text x="120" y="98" text-anchor="middle" font-family="Instrument Sans, sans-serif" font-size="10" font-weight="600" fill="#1b2326">Bristol, England</text>
+
+                                        <!-- Destination Waypoints -->
+                                        <g id="waypoint-1" class="chart-point active" transform="translate(430, 310)">
+                                            <circle cx="0" cy="0" r="7" fill="#b33d28"/>
+                                            <circle cx="0" cy="0" r="14" fill="none" stroke="#b33d28" stroke-width="1.2" opacity="0.6"/>
+                                            <text x="16" y="4" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#b33d28">Lilliput (30° 2′ S)</text>
+                                        </g>
+                                        <g id="waypoint-2" class="chart-point" transform="translate(500, 130)">
+                                            <circle cx="0" cy="0" r="7" fill="#8a6526"/>
+                                            <circle cx="0" cy="0" r="14" fill="none" stroke="#8a6526" stroke-width="1.2" opacity="0.6"/>
+                                            <text x="16" y="4" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#8a6526">Brobdingnag (54° N)</text>
+                                        </g>
+                                        <g id="waypoint-3" class="chart-point" transform="translate(540, 180)">
+                                            <circle cx="0" cy="0" r="7" fill="#2b6782"/>
+                                            <circle cx="0" cy="0" r="14" fill="none" stroke="#2b6782" stroke-width="1.2" opacity="0.6"/>
+                                            <text x="16" y="4" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#2b6782">Laputa (46° N, 183° E)</text>
+                                        </g>
+                                        <g id="waypoint-4" class="chart-point" transform="translate(400, 340)">
+                                            <circle cx="0" cy="0" r="7" fill="#2f6b4f"/>
+                                            <circle cx="0" cy="0" r="14" fill="none" stroke="#2f6b4f" stroke-width="1.2" opacity="0.6"/>
+                                            <text x="16" y="4" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#2f6b4f">Houyhnhnms (45° S)</text>
+                                        </g>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Dynamic Nautical Card -->
+                            <div class="chart-details-panel" id="chart-details">
+                                <span class="chart-vessel" id="chart-vessel">Vessel: The Antelope (Bristol)</span>
+                                <h4 class="chart-destination" id="chart-destination">Voyage I: Lilliput &amp; Blefuscu</h4>
+                                <div class="chart-coords">
+                                    <span class="coord-pill" id="chart-coord">Coordinates: 30° 2′ South Latitude (East Indies)</span>
+                                    <span class="coord-pill" id="chart-dates">Duration: May 4, 1699 – April 13, 1702</span>
+                                </div>
+                                <blockquote class="chart-quote" id="chart-quote">
+                                    “We were driven by a violent storm to the north-west of Van Diemen’s Land... twelve of our crew were dead by immoderate labour and ill food; the rest were in a very weak condition.”
+                                </blockquote>
+                                <div class="chart-catalyst" id="chart-catalyst">
+                                    <b>Maritime Catastrophe:</b> The ship splits against a sunken rock during a tempest. Gulliver swims until exhausted, falling into a 9-hour slumber on the beach.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- ====================================================
                  5. PLOT (INCITING INCIDENT → RESOLUTION)
                  ==================================================== -->
@@ -572,6 +797,90 @@
                                 <!-- Add Plot details here -->
                                 <p>Banished with heavy hearts by the Houyhnhnm Grand Assembly, Gulliver is rescued by the generous Portuguese Captain Don Pedro. Despite Don Pedro’s saintly kindness, Gulliver views him as a Yahoo. Returning to his home in Redriff, Gulliver purchases two stone horses, spending hours conversing with them in the stable to escape the unbearable pride of mankind.</p>
                                 <!-- [Insert text here for Resolution commentary] -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================================
+                 5B. GULLIVER'S PSYCHOLOGICAL DESCENT TRACKER
+                 ==================================================== -->
+            <section id="psychology" class="section psych-sec" data-log="1699–1726|Gulliver’s Psychological Devolution">
+                <div class="wrap">
+                    <div class="opener">
+                        <p class="opener-note" data-reveal>Internal character evolution</p>
+                        <div class="opener-main">
+                            <h2 class="h2 split">Gulliver’s Psychological Descent</h2>
+                            <p class="lede" data-reveal style="--i:2">The 16-year mental devolution of Lemuel Gulliver: from a cheerful, naive English surgeon into an uncompromising, radicalized misanthrope.</p>
+                        </div>
+                    </div>
+
+                    <div class="psych-card" data-reveal>
+                        <!-- Misanthropy Meter Display -->
+                        <div class="psych-meter-header">
+                            <div>
+                                <span class="psych-badge">Psychological Index</span>
+                                <h3 class="psych-state-title" id="psych-title">1699: The Patriotic Rationalist</h3>
+                            </div>
+                            <div class="psych-meter-score">
+                                <span class="score-label">Misanthropy Index:</span>
+                                <b id="psych-pct">0%</b>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Progression Gauge -->
+                        <div class="psych-gauge-track">
+                            <div class="psych-gauge-fill" id="psych-gauge-fill" style="width: 0%;"></div>
+                        </div>
+
+                        <!-- 5 Milestone Navigation Points -->
+                        <div class="psych-milestones" role="tablist" aria-label="Gulliver psychological stages">
+                            <button class="psych-node is-active" data-stage="0" type="button">
+                                <span class="node-dot"></span>
+                                <span class="node-year">1699</span>
+                                <span class="node-title">I. Lilliput</span>
+                            </button>
+                            <button class="psych-node" data-stage="1" type="button">
+                                <span class="node-dot"></span>
+                                <span class="node-year">1703</span>
+                                <span class="node-title">II. Brobdingnag</span>
+                            </button>
+                            <button class="psych-node" data-stage="2" type="button">
+                                <span class="node-dot"></span>
+                                <span class="node-year">1707</span>
+                                <span class="node-title">III. Laputa</span>
+                            </button>
+                            <button class="psych-node" data-stage="3" type="button">
+                                <span class="node-dot"></span>
+                                <span class="node-year">1711</span>
+                                <span class="node-title">IV. Houyhnhnms</span>
+                            </button>
+                            <button class="psych-node" data-stage="4" type="button">
+                                <span class="node-dot"></span>
+                                <span class="node-year">1715+</span>
+                                <span class="node-title">V. Redriff Stable</span>
+                            </button>
+                        </div>
+
+                        <!-- Detail Stage Box -->
+                        <div class="psych-details-grid">
+                            <div class="psych-journal">
+                                <span class="journal-tag">Narrator’s Primary Journal Entry</span>
+                                <blockquote class="journal-quote" id="psych-quote">
+                                    “I had been condemned by nature and fortune to an active and restless life... I took ship with noble hopes, believing the world governed by honor, religion, and the majesty of my sovereign.”
+                                </blockquote>
+                                <cite id="psych-cite">— Lemuel Gulliver, First Surgeon of Several Ships (1699)</cite>
+                            </div>
+
+                            <div class="psych-diagnosis">
+                                <h4>Literary &amp; Moral Diagnosis</h4>
+                                <p id="psych-desc">
+                                    Gulliver begins as the archetypal Enlightenment optimist. He believes in British moral superiority, colonial benevolence, and the innate nobility of mankind. His naivety prevents him from recognizing that the tiny court of Lilliput is an exact mirror of European corruption.
+                                </p>
+                                <div class="psych-distortion">
+                                    <b>Psychological Shift:</b> <span id="psych-shift">Innocent patriotism; absolute trust in European customs and royal power.</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -729,6 +1038,257 @@
             </section>
 
             <!-- ====================================================
+                 6B. THE SCALE OF MAN — Optical Inversion Simulator
+                 ==================================================== -->
+            <section id="scale-simulator" class="section scale-sec" data-log="1699–1703|The Optical Inversion of Scale">
+                <div class="wrap">
+                    <div class="opener">
+                        <p class="opener-note" data-reveal>Optical allegory decoded</p>
+                        <div class="opener-main">
+                            <h2 class="h2 split">The Scale of Man: Optical Inversion</h2>
+                            <p class="lede" data-reveal style="--i:2">Explore Jonathan Swift’s optical masterstroke: shifting physical perspective from 1:12 to 12:1 to expose the absurdity of human pride.</p>
+                        </div>
+                    </div>
+
+                    <div class="scale-card" data-reveal>
+                        <div class="scale-controls-bar">
+                            <span class="scale-bar-label">Select Perspective Realm:</span>
+                            <div class="scale-btn-group" role="tablist" aria-label="Perspective scale selector">
+                                <button class="scale-btn is-active" data-scale="lilliput" type="button">
+                                    <span class="scale-ratio">1:12</span>
+                                    <span>Part I: Lilliput (Miniature)</span>
+                                </button>
+                                <button class="scale-btn" data-scale="england" type="button">
+                                    <span class="scale-ratio">1:1</span>
+                                    <span>England (Normal Human)</span>
+                                </button>
+                                <button class="scale-btn" data-scale="brobdingnag" type="button">
+                                    <span class="scale-ratio">12:1</span>
+                                    <span>Part II: Brobdingnag (Giants)</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="scale-stage-grid">
+                            <!-- Visual Graphic Scale Stage -->
+                            <div class="scale-stage-visual">
+                                <div class="scale-ruler">
+                                    <span class="ruler-mark" style="top: 0%;">72 ft</span>
+                                    <span class="ruler-mark" style="top: 35%;">20 ft</span>
+                                    <span class="ruler-mark" style="top: 70%;">6 ft</span>
+                                    <span class="ruler-mark" style="top: 95%;">6 in</span>
+                                    <span class="ruler-mark" style="bottom: 0;">0</span>
+                                </div>
+
+                                <div class="scale-actors" id="scale-actors-wrap">
+                                    <!-- Gulliver Silhouette -->
+                                    <div class="scale-figure scale-gulliver" id="fig-gulliver">
+                                        <div class="fig-label" id="fig-gulliver-lbl">Gulliver (6 ft)</div>
+                                        <svg viewBox="0 0 100 240" fill="currentColor">
+                                            <circle cx="50" cy="24" r="16"/>
+                                            <path d="M30 46 L70 46 L62 130 L74 230 L54 230 L50 144 L46 230 L26 230 L38 130 Z"/>
+                                            <polygon points="24,18 76,18 50,4"/>
+                                        </svg>
+                                    </div>
+
+                                    <!-- Realm Native Silhouette -->
+                                    <div class="scale-figure scale-native" id="fig-native">
+                                        <div class="fig-label" id="fig-native-lbl">Lilliputian (6 in)</div>
+                                        <svg viewBox="0 0 100 240" fill="currentColor">
+                                            <circle cx="50" cy="24" r="16"/>
+                                            <path d="M30 46 L70 46 L62 130 L74 230 L54 230 L50 144 L46 230 L26 230 L38 130 Z"/>
+                                            <line x1="82" y1="10" x2="82" y2="230" stroke="currentColor" stroke-width="6"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Scale Metrics & Swiftian Commentary -->
+                            <div class="scale-analysis-panel">
+                                <div class="scale-stats-row">
+                                    <div class="scale-stat">
+                                        <span class="stat-name">Scale Ratio</span>
+                                        <b class="stat-val" id="stat-ratio">1 : 12</b>
+                                    </div>
+                                    <div class="scale-stat">
+                                        <span class="stat-name">Gulliver Height</span>
+                                        <b class="stat-val" id="stat-gulliver-h">6 ft (72 in)</b>
+                                    </div>
+                                    <div class="scale-stat">
+                                        <span class="stat-name">Native Height</span>
+                                        <b class="stat-val" id="stat-native-h">6 in (0.5 ft)</b>
+                                    </div>
+                                    <div class="scale-stat">
+                                        <span class="stat-name">Volumetric Mass</span>
+                                        <b class="stat-val" id="stat-mass">1,728 : 1</b>
+                                    </div>
+                                </div>
+
+                                <div class="scale-narrative-box">
+                                    <h4 id="scale-theme-title">The Optical Illusion of Imperial Grandeur</h4>
+                                    <blockquote id="scale-quote">
+                                        “I could not but smile to observe how formidable I was to these diminutive creatures, whilst they in return were puffed up with all the pride of an empire.”
+                                    </blockquote>
+                                    <p id="scale-commentary">
+                                        In Lilliput, humans are shrunk to 1/12th scale. By making European court intrigues and military threats play out among miniature people, Swift reveals how pompous titles, wars of expansion, and royal proclamations are fundamentally ridiculous when viewed from an elevated vantage point.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================================
+                 6C. COMPARATIVE VOYAGE MATRIX — Academic Synthesis
+                 ==================================================== -->
+            <section id="matrix" class="section matrix-sec" data-log="1726|Comparative Matrix of 4 Realms">
+                <div class="wrap">
+                    <div class="opener">
+                        <p class="opener-note" data-reveal>Comparative literary synthesis</p>
+                        <div class="opener-main">
+                            <h2 class="h2 split">The Four-Voyage Analytical Matrix</h2>
+                            <p class="lede" data-reveal style="--i:2">A multi-dimensional academic framework mapping physical scale, governance models, satirical targets, and Gulliver’s progressive moral decline.</p>
+                        </div>
+                    </div>
+
+                    <div class="matrix-card" data-reveal>
+                        <div class="matrix-toolbar">
+                            <span class="matrix-toolbar-title">Cross-Realm Dimensional Comparison</span>
+                            <div class="matrix-legend">
+                                <span class="legend-dot dot-1">Part I: Lilliput</span>
+                                <span class="legend-dot dot-2">Part II: Brobdingnag</span>
+                                <span class="legend-dot dot-3">Part III: Laputa</span>
+                                <span class="legend-dot dot-4">Part IV: Houyhnhnms</span>
+                            </div>
+                        </div>
+
+                        <div class="matrix-responsive-wrap">
+                            <table class="matrix-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" style="width: 18%;">Dimension</th>
+                                        <th scope="col" style="width: 20%;">Voyage I: Lilliput</th>
+                                        <th scope="col" style="width: 20%;">Voyage II: Brobdingnag</th>
+                                        <th scope="col" style="width: 21%;">Voyage III: Laputa</th>
+                                        <th scope="col" style="width: 21%;">Voyage IV: Houyhnhnms</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">
+                                            <b>Physical Perspective</b>
+                                            <small>Scale &amp; Optics</small>
+                                        </th>
+                                        <td>
+                                            <span class="matrix-badge">1:12 Miniature</span>
+                                            <p>Human beings shrunken to six inches. Gulliver is a titan ("Man-Mountain") capable of moving armadas.</p>
+                                        </td>
+                                        <td>
+                                            <span class="matrix-badge">12:1 Colossal</span>
+                                            <p>Human beings magnified twelvefold. Gulliver is reduced to a doll-sized curio harassed by flies and rats.</p>
+                                        </td>
+                                        <td>
+                                            <span class="matrix-badge">Vertical Detachment</span>
+                                            <p>A floating magnetic citadel hovering 4.5 miles in the clouds above ruined agricultural valleys.</p>
+                                        </td>
+                                        <td>
+                                            <span class="matrix-badge">Species Inversion</span>
+                                            <p>Equines possess pure reason and speech; human beings (Yahoos) are naked, degenerate beasts of burden.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <b>Political Structure</b>
+                                            <small>Governance &amp; Law</small>
+                                        </th>
+                                        <td>
+                                            <b>Petty Despotism</b>
+                                            <p>Court patronage awarded for tightrope dancing; endless factional wars over egg-cracking customs.</p>
+                                        </td>
+                                        <td>
+                                            <b>Moral Constitutionalism</b>
+                                            <p>Enlightened king refuses gunpowder; laws must not exceed 22 words and are written in plain language.</p>
+                                        </td>
+                                        <td>
+                                            <b>Theoretical Tyranny</b>
+                                            <p>Scholars govern through astrological decrees; threaten rebellious cities by hovering over their sunlight.</p>
+                                        </td>
+                                        <td>
+                                            <b>Stoic Rational Republic</b>
+                                            <p>General Council meets quadrennially; consensus governed solely by truth, virtue, and natural benevolence.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <b>Satirical Target</b>
+                                            <small>18th-Century Critique</small>
+                                        </th>
+                                        <td>
+                                            <b>Court Corruption &amp; Whigs</b>
+                                            <p>Mocks King George I, Prime Minister Robert Walpole (Flimnap), and European religious schisms.</p>
+                                        </td>
+                                        <td>
+                                            <b>Militarism &amp; Empire</b>
+                                            <p>Condemns gunpowder warfare, fiscal corruption, and humanity's repulsive physical vanity.</p>
+                                        </td>
+                                        <td>
+                                            <b>Scientific Conceit</b>
+                                            <p>Savage parody of the Royal Society and intellectuals whose abstract theories neglect basic human survival.</p>
+                                        </td>
+                                        <td>
+                                            <b>The Human Condition</b>
+                                            <p>Demolishes the Enlightenment myth of <em>"Animal Rationale"</em> (the rational animal), exposing human savagery.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <b>Gulliver’s Psychology</b>
+                                            <small>Mental Evolution</small>
+                                        </th>
+                                        <td>
+                                            <b>Naive Imperial Patriot</b>
+                                            <p>Eager to serve the crown; exercises merciful restraint but remains blindly loyal to English ideals.</p>
+                                        </td>
+                                        <td>
+                                            <b>Vulnerable &amp; Humiliated</b>
+                                            <p>Stung by the King’s moral reprimand; painfully aware of physical insignificance and fragility.</p>
+                                        </td>
+                                        <td>
+                                            <b>Bored &amp; Disillusioned</b>
+                                            <p>Alienated by abstract pedantry; sees through the fraudulent academic pretenses of Lagado.</p>
+                                        </td>
+                                        <td>
+                                            <b>Radicalized Misanthrope</b>
+                                            <p>Complete psychological collapse; cannot endure the sight or smell of family, conversing only with stable horses.</p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                            <b>Philosophical Thesis</b>
+                                            <small>Core Lesson</small>
+                                        </th>
+                                        <td>
+                                            <em>Smallness of human ambition</em>
+                                        </td>
+                                        <td>
+                                            <em>Moral scale vs. physical might</em>
+                                        </td>
+                                        <td>
+                                            <em>Hubris of abstract intellect</em>
+                                        </td>
+                                        <td>
+                                            <em>The devastating cost of human pride</em>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================================
                  7. REAL-LIFE REFERENCES — a sideways passage on desktop
                  ==================================================== -->
             <section id="references" class="refs" data-log="1726|London, in print">
@@ -804,6 +1364,221 @@
                     <div class="refs-progress" aria-hidden="true"><span id="refs-fill"></span></div>
                 </div>
             </section>
+
+            <!-- ====================================================
+                 7B. SATIRE LAB & COMPREHENSION QUIZ — Interactive Suite
+                 ==================================================== -->
+            <section id="satire-lab" class="section satire-sec" data-log="1726|Satire Lab & Knowledge Check">
+                <div class="wrap">
+                    <div class="opener">
+                        <p class="opener-note" data-reveal>Interactive scholarship</p>
+                        <div class="opener-main">
+                            <h2 class="h2 split">The Swiftian Satire Lab</h2>
+                            <p class="lede" data-reveal style="--i:2">Engage directly with Jonathan Swift’s razor-sharp aphorisms and test your literary analysis of the voyages.</p>
+                        </div>
+                    </div>
+
+                    <div class="satire-lab-grid">
+                        <!-- Module A: The Aphorism Generator ("Vex the World") -->
+                        <div class="aphorism-card" data-reveal>
+                            <div class="card-ornament">❖</div>
+                            <span class="card-label">The Satirist’s Looking Glass</span>
+                            <blockquote id="aphorism-quote" class="aphorism-text">
+                                “Satire is a sort of glass, wherein beholders do generally discover everybody’s face but their own; which is the chief reason for that kind reception it meets in the world.”
+                            </blockquote>
+                            <cite id="aphorism-source" class="aphorism-cite">— Jonathan Swift, <em>The Battle of the Books</em> (1704)</cite>
+                            
+                            <div class="aphorism-actions">
+                                <button id="next-aphorism-btn" class="btn btn--quiet" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                    Draw Another Satire
+                                </button>
+                                <button id="copy-aphorism-btn" class="tool-btn" type="button" title="Copy quote to clipboard" aria-label="Copy quote to clipboard">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Module B: Interactive Satire Comprehension Quiz -->
+                        <div class="quiz-container" data-reveal style="--i:1">
+                            <div class="quiz-head">
+                                <div>
+                                    <span class="quiz-badge">Student Comprehension Check</span>
+                                    <h3 class="h3 quiz-title">Test Your Swiftian Acumen</h3>
+                                </div>
+                                <span class="quiz-step" id="quiz-step-count">Question 1 of 5</span>
+                            </div>
+
+                            <div class="quiz-progress-bar"><span id="quiz-progress-fill"></span></div>
+
+                            <!-- Question Card Container -->
+                            <div id="quiz-box" class="quiz-box">
+                                <p class="quiz-question" id="quiz-question-text">Loading examination question...</p>
+                                <div class="quiz-options" id="quiz-options-group">
+                                    <!-- Dynamic options inserted here via JS -->
+                                </div>
+                                <div id="quiz-feedback" class="quiz-feedback hidden">
+                                    <p id="quiz-feedback-text"></p>
+                                    <button id="quiz-next-btn" class="btn" type="button">Next Question</button>
+                                </div>
+                            </div>
+
+                            <!-- Final Results View (hidden initially) -->
+                            <div id="quiz-result" class="quiz-result hidden">
+                                <div class="quiz-score-circle">
+                                    <span id="quiz-score-num">5</span><small>/ 5</small>
+                                </div>
+                                <h4 id="quiz-verdict-title" class="quiz-verdict">Master Houyhnhnm Sage</h4>
+                                <p id="quiz-verdict-desc" class="quiz-verdict-desc">You possess pure, uncorrupted Stoic reason. Swift himself would welcome your commentary.</p>
+                                <button id="quiz-retry-btn" class="btn btn--quiet" type="button">Retake Examination</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================================
+                 7C. SWIFTIAN GLOSSARY & COINED TERMS LEXICON
+                 ==================================================== -->
+            <section id="glossary" class="section gloss-sec" data-log="1726|Swiftian Lexicon & Etymology">
+                <div class="wrap">
+                    <div class="opener">
+                        <p class="opener-note" data-reveal>Linguistic heritage</p>
+                        <div class="opener-main">
+                            <h2 class="h2 split">Swiftian Lexicon &amp; Etymology</h2>
+                            <p class="lede" data-reveal style="--i:2">Jonathan Swift invented neologisms, allegories, and satirical terms in 1726 that permanently enriched the English language.</p>
+                        </div>
+                    </div>
+
+                    <div class="gloss-container" data-reveal>
+                        <div class="gloss-toolbar">
+                            <div class="gloss-search-box">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                                <input type="text" id="gloss-search" placeholder="Search Swiftian terms (e.g. Yahoo, Flapper, Houyhnhnm)..." aria-label="Search glossary terms">
+                            </div>
+                            <div class="gloss-filter-pills" role="tablist">
+                                <button class="gloss-pill is-active" data-cat="all" type="button">All Terms (10)</button>
+                                <button class="gloss-pill" data-cat="v1" type="button">Voyage I: Lilliput</button>
+                                <button class="gloss-pill" data-cat="v2" type="button">Voyage II: Brobdingnag</button>
+                                <button class="gloss-pill" data-cat="v3" type="button">Voyage III: Laputa</button>
+                                <button class="gloss-pill" data-cat="v4" type="button">Voyage IV: Houyhnhnms</button>
+                            </div>
+                        </div>
+
+                        <div class="gloss-grid" id="gloss-grid">
+                            <!-- Term 1: Yahoo -->
+                            <article class="gloss-card" data-cat="v4">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Yahoo</h4>
+                                    <span class="gloss-pron">[yah-hoo]</span>
+                                    <span class="gloss-voyage-tag">Voyage IV</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> A filthy, hairy, and vicious humanoid brute kept as draft animals by the noble Houyhnhnms. Gulliver is terrified to recognize his own anatomical double in them.</p>
+                                <p class="gloss-modern"><b>Modern English Meaning:</b> Now an established English noun meaning an uncouth, uncultured, or boorish person (and the inspiration for the tech company name).</p>
+                            </article>
+
+                            <!-- Term 2: Lilliputian -->
+                            <article class="gloss-card" data-cat="v1">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Lilliputian</h4>
+                                    <span class="gloss-pron">[lil-i-pyoo-shuhn]</span>
+                                    <span class="gloss-voyage-tag">Voyage I</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> Inhabitant of Lilliput, standing less than six inches tall, marked by colossal pretensions of imperial majesty and political pettiness.</p>
+                                <p class="gloss-modern"><b>Modern English Meaning:</b> Trivial, tiny, or diminutive; also used to describe petty, small-minded bureaucratic thinking.</p>
+                            </article>
+
+                            <!-- Term 3: Brobdingnagian -->
+                            <article class="gloss-card" data-cat="v2">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Brobdingnagian</h4>
+                                    <span class="gloss-pron">[brob-ding-nag-ee-uhn]</span>
+                                    <span class="gloss-voyage-tag">Voyage II</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> Pertaining to the colossal giants of Brobdingnag who stand sixty to seventy-two feet tall and possess enlightened moral governance.</p>
+                                <p class="gloss-modern"><b>Modern English Meaning:</b> Immense, gargantuan, or of extraordinary gigantic proportions.</p>
+                            </article>
+
+                            <!-- Term 4: Houyhnhnm -->
+                            <article class="gloss-card" data-cat="v4">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Houyhnhnm</h4>
+                                    <span class="gloss-pron">[whin-hum / hoo-in-um]</span>
+                                    <span class="gloss-voyage-tag">Voyage IV</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> In their tongue, "the perfection of nature". Rational, benevolent horses endowed with pure Stoic reason, possessing no concept of falsehood, war, or pride.</p>
+                                <p class="gloss-modern"><b>Linguistic Origin:</b> Swift invented this word to phonetically mimic the whinny or neighing of a horse.</p>
+                            </article>
+
+                            <!-- Term 5: Flapper -->
+                            <article class="gloss-card" data-cat="v3">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Flapper</h4>
+                                    <span class="gloss-pron">[flap-er]</span>
+                                    <span class="gloss-voyage-tag">Voyage III</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> A domestic servant in Laputa holding a blown bladder fastened to a stick, tasked with striking the mouths and ears of abstracted philosophers to recall them to conversation.</p>
+                                <p class="gloss-modern"><b>Satirical Significance:</b> Mocks modern intellectuals whose heads are so buried in abstract theory that they lose touch with immediate reality.</p>
+                            </article>
+
+                            <!-- Term 6: Quinbus Flestrin -->
+                            <article class="gloss-card" data-cat="v1">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Quinbus Flestrin</h4>
+                                    <span class="gloss-pron">[kwin-buhs fles-trin]</span>
+                                    <span class="gloss-voyage-tag">Voyage I</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> The Lilliputian imperial title bestowed upon Gulliver by Emperor Golbasto Momaren, translating to "The Great Man-Mountain".</p>
+                                <p class="gloss-modern"><b>Satirical Significance:</b> Demonstrates how physical stature dictates power hierarchies in the animal and human kingdoms.</p>
+                            </article>
+
+                            <!-- Term 7: Glumdalclitch -->
+                            <article class="gloss-card" data-cat="v2">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Glumdalclitch</h4>
+                                    <span class="gloss-pron">[glum-dahl-klitch]</span>
+                                    <span class="gloss-voyage-tag">Voyage II</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> Meaning "Little Nurse", the name given to the gentle nine-year-old giant daughter of the farmer who sews miniature clothes and protects Gulliver from court dangers.</p>
+                                <p class="gloss-modern"><b>Satirical Significance:</b> Embodies pure domestic innocence contrasted against the cold political machinations of European courts.</p>
+                            </article>
+
+                            <!-- Term 8: Lorbrulgrud -->
+                            <article class="gloss-card" data-cat="v2">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Lorbrulgrud</h4>
+                                    <span class="gloss-pron">[lor-bruhl-gruhd]</span>
+                                    <span class="gloss-voyage-tag">Voyage II</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> The capital city of Brobdingnag, translating to "Pride of the Universe", housing fifty-four square miles and palaces with ceilings over 200 feet high.</p>
+                                <p class="gloss-modern"><b>Satirical Significance:</b> A direct mirror to London and Paris, rendered on a colossal moral scale.</p>
+                            </article>
+
+                            <!-- Term 9: Tramecksan & Slamecksan -->
+                            <article class="gloss-card" data-cat="v1">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">High &amp; Low Heels</h4>
+                                    <span class="gloss-pron">[Tramecksan & Slamecksan]</span>
+                                    <span class="gloss-voyage-tag">Voyage I</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> The two warring political parties of Lilliput divided solely by the height of the heels on their shoes.</p>
+                                <p class="gloss-modern"><b>Historical Allegory:</b> Swift's biting lampoon of the bitter Tory and Whig partisan warfare in 18th-century British Parliament.</p>
+                            </article>
+
+                            <!-- Term 10: Big-Endians -->
+                            <article class="gloss-card" data-cat="v1">
+                                <div class="gloss-card-head">
+                                    <h4 class="gloss-term">Big-Endians</h4>
+                                    <span class="gloss-pron">[big-en-dee-uhnz]</span>
+                                    <span class="gloss-voyage-tag">Voyage I</span>
+                                </div>
+                                <p class="gloss-def"><b>Original Definition:</b> Dissident subjects who rebelled against an imperial edict commanding all boiled eggs to be cracked on the smaller end rather than the traditional big end.</p>
+                                <p class="gloss-modern"><b>Historical Allegory:</b> Satirizes centuries of deadly Catholic vs. Protestant religious wars fought over trivial theological dogmas.</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Sea window: night falls on the last voyage -->
@@ -828,6 +1603,11 @@
                     <div class="pillars">
                         <!-- Pillar 1: Political Arrogance -->
                         <article class="pillar" data-reveal>
+                            <div class="pillar-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M12 3v18M5 8l7-4 7 4M3 13l4-2 4 2-4 6-4-6zm10 0l4-2 4 2-4 6-4-6z"/>
+                                </svg>
+                            </div>
                             <h3>I. Political Pride</h3>
                             <h4>The Delusion of Dominion</h4>
                             <!-- Add Main Lesson custom notes here -->
@@ -836,6 +1616,13 @@
 
                         <!-- Pillar 2: Intellectual Arrogance -->
                         <article class="pillar" data-reveal style="--i:1">
+                            <div class="pillar-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <circle cx="12" cy="12" r="9"/>
+                                    <ellipse cx="12" cy="12" rx="9" ry="4" transform="rotate(25 12 12)"/>
+                                    <path d="M12 3v18M3 12h18"/>
+                                </svg>
+                            </div>
                             <h3>II. Intellectual Hubris</h3>
                             <h4>Knowledge Divorced from Virtue</h4>
                             <!-- Add Main Lesson custom notes here -->
@@ -844,6 +1631,12 @@
 
                         <!-- Pillar 3: Moral Arrogance -->
                         <article class="pillar" data-reveal style="--i:2">
+                            <div class="pillar-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <ellipse cx="12" cy="9" rx="7" ry="7"/>
+                                    <path d="M12 16v6M9 22h6M10 7a3 3 0 0 1 3-3"/>
+                                </svg>
+                            </div>
                             <h3>III. Moral Vainglory</h3>
                             <h4>The Fall of Gulliver Himself</h4>
                             <!-- Add Main Lesson custom notes here -->
@@ -853,7 +1646,7 @@
 
                     <!-- Grand Conclusion Statement -->
                     <div class="verdict" data-reveal>
-                        <h3 class="verdict-label h3">Academic Conclusion of Group 3</h3>
+                        <h3 class="verdict-label h3">The Core Philosophical Verdict of Gulliver’s Travels</h3>
                         <blockquote>"The chief end I propose to myself in all my labors is to humble the pride of man, and to convince him that his reason is imperfect and his nature frail."</blockquote>
                         <p>To read <em>Gulliver’s Travels</em> in the modern era is to hold a looking-glass to our own technological, political, and social hubris. Swift reminds us that the greatest antidote to human folly is not pride in our achievements, but the humble acknowledgment of our profound limitations.</p>
                     </div>
@@ -861,38 +1654,136 @@
             </section>
 
             <!-- ====================================================
-                 9. FOOTER — Group 3 credits
+                 8B. ACADEMIC WORKS CITED & BIBLIOGRAPHY
+                 ==================================================== -->
+            <section id="bibliography" class="section bib-sec" data-log="1726–2026|Scholarly Works Cited">
+                <div class="wrap">
+                    <div class="bib-header" data-reveal>
+                        <span class="bib-badge">Scholarly References</span>
+                        <h2 class="h2 split">Works Cited &amp; Historical Literature</h2>
+                        <p class="lede" data-reveal style="--i:1">Primary textual editions and Enlightenment critical treatises referenced in this report.</p>
+                    </div>
+
+                    <div class="bib-grid">
+                        <div class="bib-card" data-reveal>
+                            <span class="bib-tag">Primary Source • 1726 First Edition</span>
+                            <h4>Travels into Several Remote Nations of the World</h4>
+                            <p class="bib-author">Swift, Jonathan (pseudonymously as Lemuel Gulliver)</p>
+                            <p class="bib-meta">London: Printed for Benjamin Motte, at the Middle Temple-Gate in Fleet-street. MDCCXXVI.</p>
+                            <div class="bib-citation-box">
+                                <code>Swift, Jonathan. <em>Gulliver's Travels</em>. 1726. Edited by Robert DeMaria Jr., Penguin Classics, 2003.</code>
+                            </div>
+                        </div>
+
+                        <div class="bib-card" data-reveal style="--i:1">
+                            <span class="bib-tag">Historical Satirical Treatise • 1704</span>
+                            <h4>A Tale of a Tub &amp; The Battle of the Books</h4>
+                            <p class="bib-author">Swift, Jonathan, Dean of St. Patrick's Cathedral</p>
+                            <p class="bib-meta">London: John Nutt, near Stationers' Hall. 1704. An investigation into ecclesiastical corruption and modern academic hubris.</p>
+                            <div class="bib-citation-box">
+                                <code>Swift, Jonathan. <em>A Tale of a Tub and Other Works</em>. Oxford World's Classics, 1999.</code>
+                            </div>
+                        </div>
+
+                        <div class="bib-card" data-reveal style="--i:2">
+                            <span class="bib-tag">Historical Parody Basis • 1665–1720</span>
+                            <h4>Philosophical Transactions of the Royal Society</h4>
+                            <p class="bib-author">The Royal Society of London for Improving Natural Knowledge</p>
+                            <p class="bib-meta">Direct satirical basis for the Grand Academy of Lagado experiments (extracting sunbeams from cucumbers).</p>
+                            <div class="bib-citation-box">
+                                <code>Hunter, Michael. <em>Establishing the New Science: The Experience of the Early Royal Society</em>. Boydell Press, 1989.</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ====================================================
+                 9. FOOTER — Presentation Contributors
                  ==================================================== -->
             <footer class="footer">
                 <div class="wrap">
-                    <div class="footer-grid">
-                        <div class="credits" data-reveal>
-                            <h3>Created by Group 3:</h3>
-                            <ul>
-                                <li>Cuario, John Lloyd M.</li>
-                                <li>Loterte, Eljohn Paulo C.</li>
-                                <li>Napay, Victor Noel A.</li>
-                                <li>Rebancos, Sean Jerve Ll.</li>
-                                <li>Relos, Kiel Hedrix V.</li>
-                            </ul>
+                    <div class="footer-top">
+                        <div class="team-header" data-reveal>
+                            <span class="team-sub">Academic Presentation Team</span>
+                            <h3 class="h2 team-title">Research &amp; Engineering Contributors</h3>
+                            <p class="team-dept">Bachelor of Science in Information Technology • BSIT 4A • Great Books in World Literature</p>
                         </div>
+
+                        <div class="team-grid">
+                            <!-- Member 1: John Lloyd Cuario -->
+                            <div class="member-card" data-reveal>
+                                <div class="member-avatar">JLC</div>
+                                <div class="member-info">
+                                    <h4 class="member-name">John Lloyd Cuario</h4>
+                                    <span class="member-role">Project Lead &amp; Systems Architecture</span>
+                                    <p class="member-bio">Coordinated project architecture, nautical canvas engine integration, and structural refactoring.</p>
+                                </div>
+                            </div>
+
+                            <!-- Member 2: Eljohn Paulo Loterte -->
+                            <div class="member-card" data-reveal style="--i:1">
+                                <div class="member-avatar">EPL</div>
+                                <div class="member-info">
+                                    <h4 class="member-name">Eljohn Paulo Loterte</h4>
+                                    <span class="member-role">Frontend Interaction &amp; 3D Dynamics</span>
+                                    <p class="member-bio">Engineered 3D card perspective transforms, Lenis scroll dynamics, and responsive drawer navigation.</p>
+                                </div>
+                            </div>
+
+                            <!-- Member 3: Victor Noel Napay -->
+                            <div class="member-card" data-reveal style="--i:2">
+                                <div class="member-avatar">VNN</div>
+                                <div class="member-info">
+                                    <h4 class="member-name">Victor Noel Napay</h4>
+                                    <span class="member-role">Creative Art Director &amp; UI/UX</span>
+                                    <p class="member-bio">Curated 18th-century antique typography, brass palettes, historical engraving optics, and layout.</p>
+                                </div>
+                            </div>
+
+                            <!-- Member 4: Sean Jerve Rebancos -->
+                            <div class="member-card" data-reveal style="--i:3">
+                                <div class="member-avatar">SJR</div>
+                                <div class="member-info">
+                                    <h4 class="member-name">Sean Jerve Rebancos</h4>
+                                    <span class="member-role">Literary Analyst &amp; Satire Researcher</span>
+                                    <p class="member-bio">Authored historical allegorical decodings (Whigs, Tories, Walpole) and comparative voyage matrix.</p>
+                                </div>
+                            </div>
+
+                            <!-- Member 5: Kiel Hedrix Relos -->
+                            <div class="member-card" data-reveal style="--i:4">
+                                <div class="member-avatar">KHR</div>
+                                <div class="member-info">
+                                    <h4 class="member-name">Kiel Hedrix Relos</h4>
+                                    <span class="member-role">QA, Accessibility &amp; Documentation</span>
+                                    <p class="member-bio">Conducted screen-reader ARIA audit, keyboard navigation, print stylesheet, and performance QA.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="footer-grid">
                         <nav class="footer-nav" aria-label="Footer" data-reveal style="--i:1">
-                            <p>An Informational Literary Presentation & Report</p>
+                            <p>An Informational Literary Presentation &amp; Report</p>
                             <a href="#home">Home</a>
                             <a href="#author">Author</a>
                             <a href="#characters">Characters</a>
                             <a href="#summary">Summary</a>
                             <a href="#plot">Plot</a>
                             <a href="#places">Places</a>
+                            <a href="#matrix">Voyage Matrix</a>
                             <a href="#references">Real-Life References</a>
+                            <a href="#satire-lab">Satire Lab &amp; Quiz</a>
                             <a href="#main-lesson">Main Lesson</a>
+                            <a href="#bibliography">Works Cited</a>
                         </nav>
                     </div>
 
                     <p class="display wordmark" id="wordmark" aria-hidden="true">Gulliver’s Travels</p>
 
                     <div class="footer-base">
-                        <span>© 2026 Academic Report Presentation. Based on Jonathan Swift's 1726 Text.</span>
+                        <span>© 2026 Academic Literary Presentation. Based on Jonathan Swift’s 1726 Masterpiece. Presented for BSIT 4A.</span>
                         <button id="back-to-top" type="button">
                             <span>Back to Top of Book</span>
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
@@ -902,6 +1793,49 @@
             </footer>
         </div>
     </main>
+
+    <!-- ====================================================
+         ACADEMIC CITATION MODAL
+         ==================================================== -->
+    <div id="citation-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-labelledby="cite-modal-title">
+        <div class="modal-card">
+            <button id="close-cite-modal" class="modal-close" type="button" aria-label="Close citation modal">✕</button>
+            <div class="modal-head">
+                <span class="modal-badge">Academic Reference</span>
+                <h3 id="cite-modal-title" class="h3">Cite This Book Report</h3>
+                <p>Standardized academic citation formats for academic papers, term projects, and bibliographies.</p>
+            </div>
+
+            <div class="cite-tabs" role="tablist">
+                <button class="cite-tab is-active" data-format="mla" type="button">MLA 9</button>
+                <button class="cite-tab" data-format="apa" type="button">APA 7</button>
+                <button class="cite-tab" data-format="chicago" type="button">Chicago 17th</button>
+            </div>
+
+            <div class="cite-box">
+                <pre id="cite-text">Cuario, John Lloyd, Eljohn Paulo Loterte, Victor Noel Napay, Sean Jerve Rebancos, and Kiel Hedrix Relos. "Gulliver’s Travels: An Academic Book Report & Satirical Analysis." BSIT 4A Great Books Presentation, 2026.</pre>
+            </div>
+
+            <button id="copy-citation-btn" class="btn" type="button">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy Citation to Clipboard
+            </button>
+        </div>
+    </div>
+
+    <!-- ====================================================
+         ENGRAVING LIGHTBOX MODAL
+         ==================================================== -->
+    <div id="lightbox-modal" class="lightbox-backdrop" aria-hidden="true" role="dialog" aria-label="Engraving image viewer">
+        <button id="close-lightbox" class="lightbox-close" type="button" aria-label="Close engraving viewer">✕</button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" src="" alt="Historical Engraving High Resolution View">
+            <p id="lightbox-caption" class="lightbox-caption"></p>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast" aria-live="polite"></div>
 
     <!-- Smooth scrolling (optional — the page works without it) -->
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>

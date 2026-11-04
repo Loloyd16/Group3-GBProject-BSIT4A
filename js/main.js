@@ -637,9 +637,470 @@
         });
     });
     document.addEventListener('click', e => { if (!e.target.closest('.dd')) closeDropdowns(); });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDropdowns(); closeMenu(); } });
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            closeDropdowns();
+            closeMenu();
+            hideCiteModal();
+            hideLightbox();
+        }
+    });
 
     $('#back-to-top').addEventListener('click', () => goTo(0));
+
+    // ====================================================
+    // TOAST NOTIFICATIONS
+    // ====================================================
+    const toast = $('#toast');
+    let toastTimer = null;
+    function showToast(msg) {
+        if (!toast) return;
+        toast.textContent = msg;
+        toast.classList.add('is-show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove('is-show'), 2600);
+    }
+
+    // ====================================================
+    // 3D CARDS TILT INTERACTION
+    // ====================================================
+    const cards3d = $$('.card-3d');
+    if (!reduce) {
+        cards3d.forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const px = (e.clientX - rect.left) / rect.width - 0.5;
+                const py = (e.clientY - rect.top) / rect.height - 0.5;
+                const rotX = -py * 24;
+                const rotY = px * 24;
+                card.style.setProperty('--gx', `${Math.round((px + 0.5) * 100)}%`);
+                card.style.setProperty('--gy', `${Math.round((py + 0.5) * 100)}%`);
+                card.style.transform = `perspective(1000px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) scale3d(1.05, 1.05, 1.05)`;
+                card.style.boxShadow = `${(-px * 24).toFixed(1)}px ${(-py * 24 + 18).toFixed(1)}px 36px rgba(14, 24, 29, 0.35)`;
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+                card.style.boxShadow = '';
+            });
+        });
+    }
+
+    // ====================================================
+    // CHARACTER VOYAGE FILTER
+    // ====================================================
+    const castPills = $$('.cast-pill');
+    const castRows = $$('.cast-row');
+    castPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+            castPills.forEach(p => p.classList.remove('is-active'));
+            pill.classList.add('is-active');
+            const f = pill.dataset.filter;
+            castRows.forEach(row => {
+                const voyages = (row.dataset.voyage || '').split(',');
+                if (f === 'all' || voyages.includes(f)) {
+                    row.classList.remove('is-hidden');
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateY(14px)';
+                    requestAnimationFrame(() => {
+                        row.style.transition = 'opacity .4s var(--ease), transform .4s var(--ease)';
+                        row.style.opacity = '1';
+                        row.style.transform = 'none';
+                    });
+                } else {
+                    row.classList.add('is-hidden');
+                }
+            });
+        });
+    });
+
+    // ====================================================
+    // PURE WEB AUDIO API NAUTICAL AMBIANCE
+    // ====================================================
+    let audioCtx = null;
+    let oceanGain = null;
+    let isAudioPlaying = false;
+    const audioToggle = $('#audio-toggle');
+    const mobileAudioToggle = $('#mobile-audio-toggle');
+    const mobileAudioText = $('#mobile-audio-text');
+
+    function startOceanSound() {
+        if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const bufferSize = audioCtx.sampleRate * 2;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            let b0 = 0, b1 = 0, b2 = 0;
+            for (let i = 0; i < bufferSize; i++) {
+                const white = Math.random() * 2 - 1;
+                b0 = 0.99886 * b0 + white * 0.0555179;
+                b1 = 0.99332 * b1 + white * 0.0750759;
+                b2 = 0.96900 * b2 + white * 0.1538520;
+                output[i] = (b0 + b1 + b2 + white * 0.5362) * 0.038;
+            }
+            const whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = noiseBuffer;
+            whiteNoise.loop = true;
+
+            const filter = audioCtx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.frequency.setValueAtTime(320, audioCtx.currentTime);
+
+            const lfo = audioCtx.createOscillator();
+            lfo.frequency.setValueAtTime(0.12, audioCtx.currentTime);
+            const lfoGain = audioCtx.createGain();
+            lfoGain.gain.setValueAtTime(220, audioCtx.currentTime);
+            lfo.connect(lfoGain);
+            lfoGain.connect(filter.frequency);
+
+            oceanGain = audioCtx.createGain();
+            oceanGain.gain.setValueAtTime(0, audioCtx.currentTime);
+
+            whiteNoise.connect(filter);
+            filter.connect(oceanGain);
+            oceanGain.connect(audioCtx.destination);
+
+            whiteNoise.start();
+            lfo.start();
+        }
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        oceanGain.gain.cancelScheduledValues(audioCtx.currentTime);
+        oceanGain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + 1.6);
+        isAudioPlaying = true;
+        if (audioToggle) audioToggle.classList.add('is-playing');
+        if (mobileAudioText) mobileAudioText.textContent = 'Mute Sea Ambiance';
+        showToast('Nautical Sea Ambiance: Active');
+    }
+
+    function stopOceanSound() {
+        if (!audioCtx || !oceanGain) return;
+        oceanGain.gain.cancelScheduledValues(audioCtx.currentTime);
+        oceanGain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 1.0);
+        isAudioPlaying = false;
+        if (audioToggle) audioToggle.classList.remove('is-playing');
+        if (mobileAudioText) mobileAudioText.textContent = 'Play Sea Ambiance';
+        showToast('Nautical Sea Ambiance: Muted');
+    }
+
+    function toggleOceanSound() {
+        if (isAudioPlaying) stopOceanSound();
+        else startOceanSound();
+    }
+    if (audioToggle) audioToggle.addEventListener('click', toggleOceanSound);
+    if (mobileAudioToggle) mobileAudioToggle.addEventListener('click', toggleOceanSound);
+
+    // ====================================================
+    // READING MODE SWITCHER
+    // ====================================================
+    const THEMES = ['parchment', 'midnight', 'academic'];
+    const THEME_NAMES = { parchment: 'Parchment', midnight: 'Midnight Deck', academic: 'Academic Print' };
+    let currentThemeIdx = 0;
+    const savedTheme = localStorage.getItem('gt_theme');
+    if (savedTheme && THEMES.includes(savedTheme)) {
+        currentThemeIdx = THEMES.indexOf(savedTheme);
+        root.dataset.theme = savedTheme;
+    }
+    function cycleTheme() {
+        currentThemeIdx = (currentThemeIdx + 1) % THEMES.length;
+        const nextTheme = THEMES[currentThemeIdx];
+        root.dataset.theme = nextTheme;
+        localStorage.setItem('gt_theme', nextTheme);
+        const mobileThemeText = $('#mobile-theme-text');
+        if (mobileThemeText) mobileThemeText.textContent = `Mode: ${THEME_NAMES[nextTheme]}`;
+        showToast(`Reading Mode: ${THEME_NAMES[nextTheme]}`);
+    }
+    const themeToggle = $('#theme-toggle');
+    const mobileThemeToggle = $('#mobile-theme-toggle');
+    if (themeToggle) themeToggle.addEventListener('click', cycleTheme);
+    if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', cycleTheme);
+
+    // ====================================================
+    // SWIFTIAN APHORISM MACHINE ("Vex the World")
+    // ====================================================
+    const APHORISMS = [
+        { text: "Satire is a sort of glass, wherein beholders do generally discover everybody’s face but their own; which is the chief reason for that kind reception it meets in the world.", source: "— Jonathan Swift, The Battle of the Books (1704)" },
+        { text: "I have always hated all nations, professions, and communities, and all my love is toward individuals... but principally I hate and detest that animal called man.", source: "— Jonathan Swift, Letter to Alexander Pope (1725)" },
+        { text: "Laws are like cobwebs, which may catch small flies, but let wasps and hornets break through.", source: "— Jonathan Swift, A Tritical Essay (1707)" },
+        { text: "Reasoning will never make a man correct an ill opinion, which by reasoning he never acquired.", source: "— Jonathan Swift, Letter to a Young Clergyman (1720)" },
+        { text: "When a true genius appears in the world, you may know him by this sign: that the dunces are all in confederacy against him.", source: "— Jonathan Swift, Thoughts on Various Subjects (1706)" },
+        { text: "Whoever could make two ears of corn, or two blades of grass, to grow upon a spot where only one grew before, would deserve better of mankind than the whole race of politicians.", source: "— Jonathan Swift, Gulliver's Travels (1726)" },
+        { text: "The chief end I propose to myself in all my labors is to vex the world rather than divert it, and if I could compass that design without hurting my own person or fortune, I would be the most indefatigable writer you have ever seen.", source: "— Jonathan Swift, Correspondence with Alexander Pope (1725)" }
+    ];
+    let aphorismIdx = 0;
+    const aphorismQuote = $('#aphorism-quote');
+    const aphorismSource = $('#aphorism-source');
+    const nextAphorismBtn = $('#next-aphorism-btn');
+    const copyAphorismBtn = $('#copy-aphorism-btn');
+
+    if (nextAphorismBtn && aphorismQuote && aphorismSource) {
+        nextAphorismBtn.addEventListener('click', () => {
+            aphorismQuote.style.opacity = '0';
+            aphorismSource.style.opacity = '0';
+            setTimeout(() => {
+                aphorismIdx = (aphorismIdx + 1) % APHORISMS.length;
+                const a = APHORISMS[aphorismIdx];
+                aphorismQuote.textContent = `“${a.text.replace(/^[“"]|[”"]$/g, '')}”`;
+                aphorismSource.innerHTML = a.source;
+                aphorismQuote.style.transition = 'opacity .4s ease';
+                aphorismSource.style.transition = 'opacity .4s ease';
+                aphorismQuote.style.opacity = '1';
+                aphorismSource.style.opacity = '1';
+            }, 250);
+        });
+    }
+    if (copyAphorismBtn && aphorismQuote && aphorismSource) {
+        copyAphorismBtn.addEventListener('click', () => {
+            const textToCopy = `${aphorismQuote.textContent}\n${aphorismSource.textContent}`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast('Aphorism copied to clipboard!');
+            }).catch(() => showToast('Failed to copy.'));
+        });
+    }
+
+    // ====================================================
+    // SATIRE COMPREHENSION QUIZ
+    // ====================================================
+    const QUIZ_DATA = [
+        {
+            q: "What was the ridiculous cause of the catastrophic war between Lilliput and Blefuscu?",
+            options: [
+                "Which end of a boiled egg should be cracked open",
+                "The height of royal tightrope ribbons",
+                "The color of ministers' court footwear",
+                "Territorial borders over offshore oyster banks"
+            ],
+            answer: 0,
+            expl: "Correct! The Big-Endians and Little-Endians fought wars resulting in 11,000 executions over egg-cracking, satirizing the deadly Protestant vs. Catholic religious schisms in Europe."
+        },
+        {
+            q: "Why do the Laputan aristocrats require servants called 'Flappers' armed with bladders?",
+            options: [
+                "To carry their scientific lodestone compasses",
+                "To strike their mouths and ears because their minds are lost in abstract speculation",
+                "To wave cooling breezes over their heavy astrological robes",
+                "To applaud whenever an astronomer solves an equation"
+            ],
+            answer: 1,
+            expl: "Correct! Swift mocked theoretical ivory-tower thinkers whose obsession with abstract math blinded them to immediate practical human realities."
+        },
+        {
+            q: "How does the King of Brobdingnag react when Gulliver offers him the recipe for gunpowder and cannons?",
+            options: [
+                "He rewards Gulliver with a chest of giant gold coins",
+                "He immediately orders 500 cannons for his imperial navy",
+                "He recoils in horror, branding humanity the most pernicious vermin on earth",
+                "He challenges Gulliver to a scientific duel"
+            ],
+            answer: 2,
+            expl: "Correct! The giant King represents moral governance; he is appalled by European destructive violence and refuses to enslave his people."
+        },
+        {
+            q: "What horrifying realization ultimately shatters Gulliver’s sanity in the Land of the Houyhnhnms?",
+            options: [
+                "The noble horses possess no written constitution",
+                "He discovers that anatomically and morally, humans are identical to the savage Yahoos",
+                "His English homeland has banned all sea voyages",
+                "He is sentenced to work as an draft animal"
+            ],
+            answer: 1,
+            expl: "Correct! Gulliver's encounter with the beastly Yahoos strips away human exceptionalism, revealing European civilization as merely 'civilized Yahoos' in fine clothes."
+        },
+        {
+            q: "What is Jonathan Swift's ultimate thesis regarding 'The Cost of Arrogance'?",
+            options: [
+                "Mistaking petty human vanity for cosmic greatness breeds moral blindness and destruction",
+                "Physical size determines moral righteousness",
+                "Theoretical science will naturally eliminate political corruption",
+                "Colonial expansion is the highest achievement of mankind"
+            ],
+            answer: 0,
+            expl: "Correct! Swift reminds us that human reason is imperfect and fragile; the antidote to folly is humble self-awareness, not inflated pride."
+        }
+    ];
+
+    let currentQ = 0;
+    let quizScore = 0;
+    let answeredCurrent = false;
+
+    const quizBox = $('#quiz-box');
+    const quizResult = $('#quiz-result');
+    const quizQuestionText = $('#quiz-question-text');
+    const quizOptionsGroup = $('#quiz-options-group');
+    const quizFeedback = $('#quiz-feedback');
+    const quizFeedbackText = $('#quiz-feedback-text');
+    const quizNextBtn = $('#quiz-next-btn');
+    const quizStepCount = $('#quiz-step-count');
+    const quizProgressFill = $('#quiz-progress-fill');
+    const quizScoreNum = $('#quiz-score-num');
+    const quizVerdictTitle = $('#quiz-verdict-title');
+    const quizVerdictDesc = $('#quiz-verdict-desc');
+    const quizRetryBtn = $('#quiz-retry-btn');
+
+    function renderQuestion(idx) {
+        answeredCurrent = false;
+        const q = QUIZ_DATA[idx];
+        if (quizStepCount) quizStepCount.textContent = `Question ${idx + 1} of ${QUIZ_DATA.length}`;
+        if (quizProgressFill) quizProgressFill.style.width = `${((idx + 1) / QUIZ_DATA.length) * 100}%`;
+        if (quizQuestionText) quizQuestionText.textContent = q.q;
+        if (quizFeedback) quizFeedback.classList.add('hidden');
+
+        if (quizOptionsGroup) {
+            quizOptionsGroup.innerHTML = '';
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'quiz-opt';
+                btn.innerHTML = `<span>${String.fromCharCode(65 + i)}. ${opt}</span>`;
+                btn.addEventListener('click', () => handleOptionClick(btn, i, q));
+                quizOptionsGroup.appendChild(btn);
+            });
+        }
+    }
+
+    function handleOptionClick(btn, chosenIdx, qData) {
+        if (answeredCurrent) return;
+        answeredCurrent = true;
+        const allBtns = $$('.quiz-opt', quizOptionsGroup);
+        allBtns.forEach(b => (b.disabled = true));
+
+        if (chosenIdx === qData.answer) {
+            btn.classList.add('is-correct');
+            quizScore++;
+            if (quizFeedbackText) quizFeedbackText.textContent = `✓ ${qData.expl}`;
+        } else {
+            btn.classList.add('is-wrong');
+            allBtns[qData.answer].classList.add('is-correct');
+            if (quizFeedbackText) quizFeedbackText.textContent = `✗ ${qData.expl}`;
+        }
+        if (quizFeedback) quizFeedback.classList.remove('hidden');
+    }
+
+    if (quizNextBtn) {
+        quizNextBtn.addEventListener('click', () => {
+            currentQ++;
+            if (currentQ < QUIZ_DATA.length) {
+                renderQuestion(currentQ);
+            } else {
+                showQuizResult();
+            }
+        });
+    }
+
+    function showQuizResult() {
+        if (quizBox) quizBox.classList.add('hidden');
+        if (quizResult) quizResult.classList.remove('hidden');
+        if (quizScoreNum) quizScoreNum.textContent = quizScore;
+
+        if (quizVerdictTitle && quizVerdictDesc) {
+            if (quizScore === 5) {
+                quizVerdictTitle.textContent = "Grand Master Houyhnhnm";
+                quizVerdictDesc.textContent = "Flawless score! You possess pure, uncorrupted Stoic reason and have decoded every nuance of Swift’s masterpiece.";
+            } else if (quizScore >= 3) {
+                quizVerdictTitle.textContent = "Brobdingnagian Philosopher";
+                quizVerdictDesc.textContent = "Commendable literary insight! You recognize humanity's moral scale and understand the perils of arrogance.";
+            } else {
+                quizVerdictTitle.textContent = "Lilliputian Rope Dancer";
+                quizVerdictDesc.textContent = "You survived the voyage, but Swift’s sharpest satires caught you off guard. Re-examine the text and try again!";
+            }
+        }
+    }
+
+    if (quizRetryBtn) {
+        quizRetryBtn.addEventListener('click', () => {
+            currentQ = 0;
+            quizScore = 0;
+            if (quizResult) quizResult.classList.add('hidden');
+            if (quizBox) quizBox.classList.remove('hidden');
+            renderQuestion(0);
+        });
+    }
+    if (quizBox) renderQuestion(0);
+
+    // ====================================================
+    // ACADEMIC CITATION MODAL
+    // ====================================================
+    const citationModal = $('#citation-modal');
+    const citeBtn = $('#cite-btn');
+    const mobileCiteBtn = $('#mobile-cite-btn');
+    const closeCiteModal = $('#close-cite-modal');
+    const copyCitationBtn = $('#copy-citation-btn');
+    const citeText = $('#cite-text');
+    const citeTabs = $$('.cite-tab');
+
+    const CITATIONS = {
+        mla: `Cuario, John Lloyd, Eljohn Paulo Loterte, Victor Noel Napay, Sean Jerve Rebancos, and Kiel Hedrix Relos. "Gulliver’s Travels: An Academic Book Report & Satirical Analysis." BSIT 4A Great Books Presentation, 2026.`,
+        apa: `Cuario, J. L., Loterte, E. P., Napay, V. N., Rebancos, S. J., & Relos, K. H. (2026). Gulliver’s Travels: An Academic Book Report & Satirical Analysis. BSIT 4A Great Books Presentation.`,
+        chicago: `Cuario, John Lloyd, Eljohn Paulo Loterte, Victor Noel Napay, Sean Jerve Rebancos, and Kiel Hedrix Relos. "Gulliver’s Travels: An Academic Book Report & Satirical Analysis." BSIT 4A Great Books Presentation, 2026.`
+    };
+
+    function openCiteModal() {
+        if (!citationModal) return;
+        citationModal.classList.add('is-open');
+        citationModal.setAttribute('aria-hidden', 'false');
+    }
+    function hideCiteModal() {
+        if (!citationModal) return;
+        citationModal.classList.remove('is-open');
+        citationModal.setAttribute('aria-hidden', 'true');
+    }
+    if (citeBtn) citeBtn.addEventListener('click', openCiteModal);
+    if (mobileCiteBtn) mobileCiteBtn.addEventListener('click', () => { closeMenu(); openCiteModal(); });
+    if (closeCiteModal) closeCiteModal.addEventListener('click', hideCiteModal);
+    if (citationModal) {
+        citationModal.addEventListener('click', e => {
+            if (e.target === citationModal) hideCiteModal();
+        });
+    }
+
+    citeTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            citeTabs.forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+            const fmt = tab.dataset.format;
+            if (citeText && CITATIONS[fmt]) citeText.textContent = CITATIONS[fmt];
+        });
+    });
+
+    if (copyCitationBtn && citeText) {
+        copyCitationBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(citeText.textContent).then(() => {
+                showToast('Citation copied to clipboard!');
+            }).catch(() => showToast('Failed to copy.'));
+        });
+    }
+
+    // ====================================================
+    // LIGHTBOX VIEWER FOR ENGRAVINGS
+    // ====================================================
+    const lightboxModal = $('#lightbox-modal');
+    const closeLightbox = $('#close-lightbox');
+    const lightboxImg = $('#lightbox-img');
+    const lightboxCaption = $('#lightbox-caption');
+
+    function openLightbox(src, cap) {
+        if (!lightboxModal || !lightboxImg) return;
+        lightboxImg.src = src;
+        if (lightboxCaption) lightboxCaption.textContent = cap || '1726 First Edition Historical Engraving';
+        lightboxModal.classList.add('is-open');
+        lightboxModal.setAttribute('aria-hidden', 'false');
+    }
+    function hideLightbox() {
+        if (!lightboxModal) return;
+        lightboxModal.classList.remove('is-open');
+        lightboxModal.setAttribute('aria-hidden', 'true');
+    }
+    if (closeLightbox) closeLightbox.addEventListener('click', hideLightbox);
+    if (lightboxModal) {
+        lightboxModal.addEventListener('click', e => {
+            if (e.target === lightboxModal) hideLightbox();
+        });
+    }
+    $$('[data-lightbox-src]').forEach(el => {
+        el.addEventListener('click', () => {
+            const src = el.dataset.lightboxSrc;
+            const cap = el.dataset.lightboxCap;
+            if (src) openLightbox(src, cap);
+        });
+    });
 
     // ====================================================
     // START
