@@ -857,70 +857,281 @@
     }
 
     // ====================================================
+    // THE SCALE OF MAN — PERSPECTIVE REALM SELECTOR
+    // ====================================================
+    // Heights are fractions of the stage's full figure height. Each realm has its
+    // own linear ruler, because 6 in and 72 ft cannot share one readable scale.
+    const SCALE_REALMS = {
+        lilliput: {
+            gulliverH: 1,
+            nativeH: 1 / 12,
+            nativeLabel: 'Lilliputian (6 in)',
+            ticks: [['6 ft', 1], ['4 ft', 2 / 3], ['2 ft', 1 / 3], ['6 in', 1 / 12], ['0', 0]],
+            ratio: '1 : 12',
+            nativeHeight: '6 in (0.5 ft)',
+            mass: '1,728 : 1',
+            title: 'The Optical Illusion of Imperial Grandeur',
+            quote: '“I could not but smile to observe how formidable I was to these diminutive creatures, whilst they in return were puffed up with all the pride of an empire.”',
+            commentary: 'In Lilliput, humans are shrunk to 1/12th scale. By making European court intrigues and military threats play out among miniature people, Swift reveals how pompous titles, wars of expansion, and royal proclamations are fundamentally ridiculous when viewed from an elevated vantage point.'
+        },
+        england: {
+            gulliverH: 1,
+            nativeH: 1,
+            nativeLabel: 'Englishman (6 ft)',
+            ticks: [['6 ft', 1], ['4 ft', 2 / 3], ['2 ft', 1 / 3], ['0', 0]],
+            ratio: '1 : 1',
+            nativeHeight: '6 ft (72 in)',
+            mass: '1 : 1',
+            title: 'The Baseline of Ordinary Pride',
+            quote: '“…when I behold a lump of deformity and diseases, both in body and mind, smitten with pride, it immediately breaks all the measures of my patience.”',
+            commentary: 'England is Swift’s control sample. At 1:1 nobody looks large or small, so vanity can pass for dignity. The scale never changes here; Gulliver does. After his voyages he comes home to the same people at the same height and can no longer bear their pride.'
+        },
+        brobdingnag: {
+            gulliverH: 1 / 12,
+            nativeH: 1,
+            nativeLabel: 'Brobdingnagian (72 ft)',
+            ticks: [['72 ft', 1], ['48 ft', 2 / 3], ['24 ft', 1 / 3], ['6 ft', 1 / 12], ['0', 0]],
+            ratio: '12 : 1',
+            nativeHeight: '72 ft (864 in)',
+            mass: '1 : 1,728',
+            title: 'The Humbling Lens of the Giants',
+            quote: '“Undoubtedly philosophers are in the right, when they tell us that nothing is great or little otherwise than by comparison.”',
+            commentary: 'In Brobdingnag the scale flips to 12:1 and Gulliver becomes the miniature. The man who towered over an empire is now menaced by rats and wasps, and his proud account of European wars earns only the King’s disgust. Greatness, Swift shows, was never a fixed quality: it depends on who is looking.'
+        }
+    };
+
+    const scaleButtons = $$('.scale-btn');
+    const scalePanel = $('#scale-panel');
+    const scaleRuler = $('#scale-ruler');
+    const figGulliver = $('#fig-gulliver');
+    const figNative = $('#fig-native');
+    let scaleSwapTimer = null;
+
+    function setScaleRealm(key) {
+        const realm = SCALE_REALMS[key];
+        if (!realm) return;
+        scaleButtons.forEach(btn => {
+            const on = btn.dataset.scale === key;
+            btn.classList.toggle('is-active', on);
+            btn.setAttribute('aria-pressed', String(on));
+        });
+        figGulliver.style.setProperty('--h', realm.gulliverH);
+        figNative.style.setProperty('--h', realm.nativeH);
+        $('#fig-native-lbl').textContent = realm.nativeLabel;
+        scaleRuler.innerHTML = realm.ticks
+            .map(([text, at]) => `<span class="ruler-mark" style="bottom:${(at * 100).toFixed(2)}%">${text}</span>`)
+            .join('');
+
+        // the words crossfade while the figures grow
+        clearTimeout(scaleSwapTimer);
+        scalePanel.classList.add('is-swapping');
+        scaleSwapTimer = setTimeout(() => {
+            $('#stat-ratio').textContent = realm.ratio;
+            $('#stat-native-h').textContent = realm.nativeHeight;
+            $('#stat-mass').textContent = realm.mass;
+            $('#scale-theme-title').textContent = realm.title;
+            $('#scale-quote').textContent = realm.quote;
+            $('#scale-commentary').textContent = realm.commentary;
+            scalePanel.classList.remove('is-swapping');
+        }, reduce ? 0 : 180);
+    }
+    scaleButtons.forEach(btn => btn.addEventListener('click', () => setScaleRealm(btn.dataset.scale)));
+
+    // ====================================================
     // SATIRE COMPREHENSION QUIZ
     // ====================================================
-    const QUIZ_DATA = [
-        {
-            q: "What was the ridiculous cause of the catastrophic war between Lilliput and Blefuscu?",
-            options: [
-                "Which end of a boiled egg should be cracked open",
-                "The height of royal tightrope ribbons",
-                "The color of ministers' court footwear",
-                "Territorial borders over offshore oyster banks"
-            ],
-            answer: 0,
-            expl: "Correct! The Big-Endians and Little-Endians fought wars resulting in 11,000 executions over egg-cracking, satirizing the deadly Protestant vs. Catholic religious schisms in Europe."
+    // 15 reserved questions: 5 per difficulty. `answer` is the index of the right option.
+    const QUIZ_BANK = {
+        easy: {
+            label: 'Easy',
+            questions: [
+                {
+                    q: "What was the ridiculous cause of the catastrophic war between Lilliput and Blefuscu?",
+                    options: [
+                        "Which end of a boiled egg should be cracked open",
+                        "The height of royal tightrope ribbons",
+                        "The color of ministers' court footwear",
+                        "Territorial borders over offshore oyster banks"
+                    ],
+                    answer: 0,
+                    expl: "The Big-Endians and Little-Endians fought over egg-cracking, and 11,000 people chose death rather than submit, satirizing the deadly Protestant vs. Catholic religious schisms in Europe."
+                },
+                {
+                    q: "What was Lemuel Gulliver's profession when he first set out to sea?",
+                    options: [
+                        "A naval captain",
+                        "A wool merchant",
+                        "A ship's surgeon",
+                        "A royal mapmaker"
+                    ],
+                    answer: 2,
+                    expl: "Gulliver trained under the London surgeon Mr. James Bates, who recommended him as surgeon to the ship Swallow. Medicine is what first takes him to sea."
+                },
+                {
+                    q: "How tall are the people of Lilliput?",
+                    options: [
+                        "About three feet",
+                        "Just under six inches",
+                        "About six feet",
+                        "Roughly sixty feet"
+                    ],
+                    answer: 1,
+                    expl: "Swift describes the natives as \"somewhat under six inches high,\" which makes Gulliver about twelve times their height."
+                },
+                {
+                    q: "What makes the island of Laputa so unusual?",
+                    options: [
+                        "It is ruled entirely by children",
+                        "It is populated by talking birds",
+                        "It sinks beneath the sea each night",
+                        "It floats in the air above the land"
+                    ],
+                    answer: 3,
+                    expl: "Laputa is a flying island steered by a giant loadstone. Its rulers hover above the lands they govern, as detached from them physically as they are intellectually."
+                },
+                {
+                    q: "What kind of beings are the Houyhnhnms?",
+                    options: [
+                        "Tiny rope-dancing courtiers",
+                        "Immortal old men",
+                        "Rational, speaking horses",
+                        "Giant farmers"
+                    ],
+                    answer: 2,
+                    expl: "The Houyhnhnms are horses who live by reason, while the human-like Yahoos are savage brutes. It is Swift's inversion of man and beast."
+                }
+            ]
         },
-        {
-            q: "Why do the Laputan aristocrats require servants called 'Flappers' armed with bladders?",
-            options: [
-                "To carry their scientific lodestone compasses",
-                "To strike their mouths and ears because their minds are lost in abstract speculation",
-                "To wave cooling breezes over their heavy astrological robes",
-                "To applaud whenever an astronomer solves an equation"
-            ],
-            answer: 1,
-            expl: "Correct! Swift mocked theoretical ivory-tower thinkers whose obsession with abstract math blinded them to immediate practical human realities."
+        mid: {
+            label: 'Mid',
+            questions: [
+                {
+                    q: "Why do the Laputan aristocrats require servants called 'Flappers' armed with bladders?",
+                    options: [
+                        "To carry their scientific lodestone compasses",
+                        "To strike their mouths and ears because their minds are lost in abstract speculation",
+                        "To wave cooling breezes over their heavy astrological robes",
+                        "To applaud whenever an astronomer solves an equation"
+                    ],
+                    answer: 1,
+                    expl: "Swift mocked theoretical ivory-tower thinkers whose obsession with abstract math blinded them to immediate practical human realities."
+                },
+                {
+                    q: "How do candidates win high office at the Lilliputian court?",
+                    options: [
+                        "By winning a duel against a rival",
+                        "By passing a written exam on law",
+                        "By paying the Treasurer a large bribe",
+                        "By dancing on a tightrope before the Emperor"
+                    ],
+                    answer: 3,
+                    expl: "When a great office falls vacant, candidates perform on a slender rope and whoever jumps highest without falling wins it. Swift is mocking the acrobatics of court politics."
+                },
+                {
+                    q: "How does the King of Brobdingnag react when Gulliver offers him the recipe for gunpowder and cannons?",
+                    options: [
+                        "He rewards Gulliver with a chest of giant gold coins",
+                        "He immediately orders 500 cannons for his imperial navy",
+                        "He recoils in horror, branding humanity the most pernicious vermin on earth",
+                        "He challenges Gulliver to a scientific duel"
+                    ],
+                    answer: 2,
+                    expl: "The giant King represents moral governance; he is appalled by European destructive violence and refuses to enslave his people."
+                },
+                {
+                    q: "What horrifying realization ultimately shatters Gulliver’s sanity in the Land of the Houyhnhnms?",
+                    options: [
+                        "The noble horses possess no written constitution",
+                        "He discovers that anatomically and morally, humans are identical to the savage Yahoos",
+                        "His English homeland has banned all sea voyages",
+                        "He is sentenced to work as a draft animal"
+                    ],
+                    answer: 1,
+                    expl: "Gulliver's encounter with the beastly Yahoos strips away human exceptionalism, revealing European civilization as merely 'civilized Yahoos' in fine clothes."
+                },
+                {
+                    q: "What is Jonathan Swift's ultimate thesis regarding 'The Cost of Arrogance'?",
+                    options: [
+                        "Mistaking petty human vanity for cosmic greatness breeds moral blindness and destruction",
+                        "Physical size determines moral righteousness",
+                        "Theoretical science will naturally eliminate political corruption",
+                        "Colonial expansion is the highest achievement of mankind"
+                    ],
+                    answer: 0,
+                    expl: "Swift reminds us that human reason is imperfect and fragile; the antidote to folly is humble self-awareness, not inflated pride."
+                }
+            ]
         },
-        {
-            q: "How does the King of Brobdingnag react when Gulliver offers him the recipe for gunpowder and cannons?",
-            options: [
-                "He rewards Gulliver with a chest of giant gold coins",
-                "He immediately orders 500 cannons for his imperial navy",
-                "He recoils in horror, branding humanity the most pernicious vermin on earth",
-                "He challenges Gulliver to a scientific duel"
-            ],
-            answer: 2,
-            expl: "Correct! The giant King represents moral governance; he is appalled by European destructive violence and refuses to enslave his people."
-        },
-        {
-            q: "What horrifying realization ultimately shatters Gulliver’s sanity in the Land of the Houyhnhnms?",
-            options: [
-                "The noble horses possess no written constitution",
-                "He discovers that anatomically and morally, humans are identical to the savage Yahoos",
-                "His English homeland has banned all sea voyages",
-                "He is sentenced to work as an draft animal"
-            ],
-            answer: 1,
-            expl: "Correct! Gulliver's encounter with the beastly Yahoos strips away human exceptionalism, revealing European civilization as merely 'civilized Yahoos' in fine clothes."
-        },
-        {
-            q: "What is Jonathan Swift's ultimate thesis regarding 'The Cost of Arrogance'?",
-            options: [
-                "Mistaking petty human vanity for cosmic greatness breeds moral blindness and destruction",
-                "Physical size determines moral righteousness",
-                "Theoretical science will naturally eliminate political corruption",
-                "Colonial expansion is the highest achievement of mankind"
-            ],
-            answer: 0,
-            expl: "Correct! Swift reminds us that human reason is imperfect and fragile; the antidote to folly is humble self-awareness, not inflated pride."
+        hard: {
+            label: 'Hard',
+            questions: [
+                {
+                    q: "The Lilliputian factions Tramecksan and Slamecksan, divided by high and low heels, allegorize which real rivalry?",
+                    options: [
+                        "Catholics and Protestants",
+                        "Tories and Whigs",
+                        "England and France",
+                        "Crown and Parliament"
+                    ],
+                    answer: 1,
+                    expl: "The High-Heels stand for the Tories and the Low-Heels for the Whigs. The religious quarrel belongs to the egg war, a separate allegory that is easy to confuse with this one."
+                },
+                {
+                    q: "What does Gulliver learn from the immortal Struldbruggs of Luggnagg?",
+                    options: [
+                        "Long life gives a nation its wisest rulers",
+                        "Eternal life is a reward kept for the virtuous",
+                        "Life without youth is misery; at eighty they are dead in law",
+                        "Immortals secretly govern the kingdom of Luggnagg"
+                    ],
+                    answer: 2,
+                    expl: "Gulliver imagines immortals would be wise and happy, then finds them decaying and envious. At eighty they are \"looked on as dead in law\" and their heirs take their estates."
+                },
+                {
+                    q: "The city of Lindalino defeats the flying island using giant loadstones. Scholars commonly read this revolt as an allegory of what?",
+                    options: [
+                        "Dublin's resistance to English power over Wood's halfpence",
+                        "The Glorious Revolution of 1688 in England",
+                        "The War of the Spanish Succession",
+                        "Scotland's union with England in 1707"
+                    ],
+                    answer: 0,
+                    expl: "The episode is widely linked to Ireland's successful 1720s protest over Wood's copper coinage, a campaign Swift himself led in The Drapier's Letters. It was so risky that it was left out of early editions."
+                },
+                {
+                    q: "The Grand Academy of Lagado, with its project to extract sunbeams from cucumbers, is chiefly a satire on which institution?",
+                    options: [
+                        "The Church of England",
+                        "The University of Oxford",
+                        "The Royal Society of London",
+                        "The Parliament of Great Britain"
+                    ],
+                    answer: 2,
+                    expl: "Swift targets the speculative experiments of the Royal Society, whose reports inspired some of Lagado's projects. The joke is knowledge pursued with no benefit to anyone."
+                },
+                {
+                    q: "Why do many critics argue that the ending of Part IV makes Gulliver himself a target of Swift's satire?",
+                    options: [
+                        "He urges England to colonize every land he visited",
+                        "He admits his account of the voyages was invented",
+                        "He forgives humanity and resumes life as a surgeon",
+                        "He condemns human pride while shunning his family to talk with his horses"
+                    ],
+                    answer: 3,
+                    expl: "Back home, Gulliver converses with his horses \"at least four hours every day\" and recoils from his family and even the generous Captain Pedro de Mendez. His contempt for pride has become a pride of its own."
+                }
+            ]
         }
-    ];
+    };
 
+    let quizLevel = 'easy';
     let currentQ = 0;
     let quizScore = 0;
     let answeredCurrent = false;
 
+    const quizContainer = $('.quiz-container');
+    const quizStart = $('#quiz-start');
+    const quizProgress = $('#quiz-progress');
     const quizBox = $('#quiz-box');
     const quizResult = $('#quiz-result');
     const quizQuestionText = $('#quiz-question-text');
@@ -930,30 +1141,66 @@
     const quizNextBtn = $('#quiz-next-btn');
     const quizStepCount = $('#quiz-step-count');
     const quizProgressFill = $('#quiz-progress-fill');
+    const quizScoreCircle = $('#quiz-score-circle');
     const quizScoreNum = $('#quiz-score-num');
+    const quizScoreTotal = $('#quiz-score-total');
+    const quizCelebrate = $('#quiz-celebrate');
     const quizVerdictTitle = $('#quiz-verdict-title');
     const quizVerdictDesc = $('#quiz-verdict-desc');
     const quizRetryBtn = $('#quiz-retry-btn');
+    const quizLevelsBtn = $('#quiz-levels-btn');
+
+    const levelQuestions = () => QUIZ_BANK[quizLevel].questions;
+
+    function showQuizView(view) {
+        for (const el of [quizStart, quizBox, quizResult]) el.classList.toggle('hidden', el !== view);
+        quizProgress.classList.toggle('hidden', view === quizStart);
+    }
+
+    function clearCelebration() {
+        stopConfetti();
+        quizCelebrate.classList.add('hidden');
+        quizScoreCircle.classList.remove('is-celebrating', 'is-perfect');
+    }
+
+    function showQuizLevels() {
+        clearCelebration();
+        quizStepCount.textContent = 'Choose a level';
+        showQuizView(quizStart);
+    }
+
+    function startQuiz(level) {
+        clearCelebration();
+        quizLevel = level;
+        currentQ = 0;
+        quizScore = 0;
+        showQuizView(quizBox);
+        renderQuestion(0);
+    }
 
     function renderQuestion(idx) {
         answeredCurrent = false;
-        const q = QUIZ_DATA[idx];
-        if (quizStepCount) quizStepCount.textContent = `Question ${idx + 1} of ${QUIZ_DATA.length}`;
-        if (quizProgressFill) quizProgressFill.style.width = `${((idx + 1) / QUIZ_DATA.length) * 100}%`;
-        if (quizQuestionText) quizQuestionText.textContent = q.q;
-        if (quizFeedback) quizFeedback.classList.add('hidden');
+        const questions = levelQuestions();
+        const q = questions[idx];
+        quizStepCount.textContent = `${QUIZ_BANK[quizLevel].label} · Question ${idx + 1} of ${questions.length}`;
+        quizProgressFill.style.width = `${((idx + 1) / questions.length) * 100}%`;
+        quizQuestionText.textContent = q.q;
+        quizFeedback.classList.add('hidden');
+        quizNextBtn.textContent = idx === questions.length - 1 ? 'See My Score' : 'Next Question';
 
-        if (quizOptionsGroup) {
-            quizOptionsGroup.innerHTML = '';
-            q.options.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = 'quiz-opt';
-                btn.innerHTML = `<span>${String.fromCharCode(65 + i)}. ${opt}</span>`;
-                btn.addEventListener('click', () => handleOptionClick(btn, i, q));
-                quizOptionsGroup.appendChild(btn);
-            });
-        }
+        quizOptionsGroup.innerHTML = '';
+        q.options.forEach((opt, i) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'quiz-opt';
+            const label = document.createElement('span');
+            label.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+            btn.appendChild(label);
+            btn.addEventListener('click', () => handleOptionClick(btn, i, q));
+            quizOptionsGroup.appendChild(btn);
+        });
+        // the button that had focus has just gone: keep keyboard users in the quiz
+        quizQuestionText.focus({ preventScroll: true });
     }
 
     function handleOptionClick(btn, chosenIdx, qData) {
@@ -965,55 +1212,169 @@
         if (chosenIdx === qData.answer) {
             btn.classList.add('is-correct');
             quizScore++;
-            if (quizFeedbackText) quizFeedbackText.textContent = `✓ ${qData.expl}`;
+            quizFeedbackText.textContent = `✓ Correct! ${qData.expl}`;
         } else {
             btn.classList.add('is-wrong');
             allBtns[qData.answer].classList.add('is-correct');
-            if (quizFeedbackText) quizFeedbackText.textContent = `✗ ${qData.expl}`;
+            quizFeedbackText.textContent = `✗ Not quite. ${qData.expl}`;
         }
-        if (quizFeedback) quizFeedback.classList.remove('hidden');
+        quizFeedback.classList.remove('hidden');
+        quizNextBtn.focus({ preventScroll: true });
     }
 
-    if (quizNextBtn) {
-        quizNextBtn.addEventListener('click', () => {
-            currentQ++;
-            if (currentQ < QUIZ_DATA.length) {
-                renderQuestion(currentQ);
-            } else {
-                showQuizResult();
-            }
-        });
-    }
+    quizNextBtn.addEventListener('click', () => {
+        currentQ++;
+        if (currentQ < levelQuestions().length) renderQuestion(currentQ);
+        else showQuizResult();
+    });
 
     function showQuizResult() {
-        if (quizBox) quizBox.classList.add('hidden');
-        if (quizResult) quizResult.classList.remove('hidden');
-        if (quizScoreNum) quizScoreNum.textContent = quizScore;
+        const total = levelQuestions().length;
+        const label = QUIZ_BANK[quizLevel].label;
+        showQuizView(quizResult);
+        quizStepCount.textContent = `${label} · Complete`;
+        quizScoreNum.textContent = quizScore;
+        quizScoreTotal.textContent = `/ ${total}`;
 
-        if (quizVerdictTitle && quizVerdictDesc) {
-            if (quizScore === 5) {
-                quizVerdictTitle.textContent = "Grand Master Houyhnhnm";
-                quizVerdictDesc.textContent = "Flawless score! You possess pure, uncorrupted Stoic reason and have decoded every nuance of Swift’s masterpiece.";
-            } else if (quizScore >= 3) {
-                quizVerdictTitle.textContent = "Brobdingnagian Philosopher";
-                quizVerdictDesc.textContent = "Commendable literary insight! You recognize humanity's moral scale and understand the perils of arrogance.";
-            } else {
-                quizVerdictTitle.textContent = "Lilliputian Rope Dancer";
-                quizVerdictDesc.textContent = "You survived the voyage, but Swift’s sharpest satires caught you off guard. Re-examine the text and try again!";
-            }
+        if (quizScore === total) {
+            quizVerdictTitle.textContent = "Grand Master Houyhnhnm";
+            quizVerdictDesc.textContent = "Flawless score! You possess pure, uncorrupted Stoic reason and have decoded every nuance of Swift’s masterpiece.";
+        } else if (quizScore >= 3) {
+            quizVerdictTitle.textContent = "Brobdingnagian Philosopher";
+            quizVerdictDesc.textContent = "Commendable literary insight! You recognize humanity's moral scale and understand the perils of arrogance.";
+        } else {
+            quizVerdictTitle.textContent = "Lilliputian Rope Dancer";
+            quizVerdictDesc.textContent = "You survived the voyage, but Swift’s sharpest satires caught you off guard. Re-examine the text and try again!";
+        }
+
+        // celebrate a perfect score or a single mistake
+        const missed = total - quizScore;
+        if (missed <= 1) {
+            quizCelebrate.textContent = missed === 0
+                ? `Perfect score! Not one mistake on ${label}.`
+                : `Excellent! Only one mistake on ${label}.`;
+            quizCelebrate.classList.remove('hidden');
+            quizScoreCircle.classList.add('is-celebrating');
+            quizScoreCircle.classList.toggle('is-perfect', missed === 0);
+            launchConfetti(missed === 0);
+        }
+
+        const c = quizScoreCircle.getBoundingClientRect();
+        if (c.top < navH() || c.bottom > H) goTo(quizContainer);
+        quizVerdictTitle.focus({ preventScroll: true });
+    }
+
+    $$('.quiz-level', quizStart).forEach(btn => btn.addEventListener('click', () => startQuiz(btn.dataset.level)));
+    quizRetryBtn.addEventListener('click', () => startQuiz(quizLevel));
+    quizLevelsBtn.addEventListener('click', showQuizLevels);
+
+    // ====================================================
+    // QUIZ CELEBRATION — paper confetti (skipped for reduced motion)
+    // ====================================================
+    const confettiCanvas = $('#quiz-confetti');
+    const confettiCtx = confettiCanvas.getContext('2d');
+    const CONFETTI_COLORS = ['#d9b46a', '#8a6526', '#2b6782', '#1d4a5e', '#b33d28', '#f3e7c9'];
+    let confettiPieces = [], confettiWaves = [], confettiRAF = 0, confettiClock = 0, confettiLast = 0;
+
+    function sizeConfetti() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+        confettiCanvas.width = Math.round(W * dpr);
+        confettiCanvas.height = Math.round(H * dpr);
+        confettiCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function addConfettiPiece(x, y, vx, vy) {
+        const size = 6 + Math.random() * 7;
+        confettiPieces.push({
+            x, y, vx, vy,
+            w: size, h: size * (.45 + Math.random() * .4),
+            round: Math.random() < .22,
+            color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+            rot: Math.random() * 6.28, spin: (Math.random() - .5) * 10,
+            flip: Math.random() * 6.28, flipRate: 5 + Math.random() * 7,
+            sway: Math.random() * 6.28, swayRate: 2 + Math.random() * 3,
+            age: 0, life: 2.8 + Math.random() * 1.6
+        });
+    }
+
+    // two cannons, one in each lower corner, firing up and inward
+    function fireConfettiCannons(count) {
+        const power = Math.max(H, 620) * 2.1;
+        for (let i = 0; i < count; i++) {
+            const side = i % 2 ? 1 : -1;
+            const angle = (52 + Math.random() * 28) * Math.PI / 180;
+            const speed = power * (.55 + Math.random() * .5);
+            addConfettiPiece(side < 0 ? -8 : W + 8, H + 8, -side * Math.cos(angle) * speed, -Math.sin(angle) * speed);
         }
     }
 
-    if (quizRetryBtn) {
-        quizRetryBtn.addEventListener('click', () => {
-            currentQ = 0;
-            quizScore = 0;
-            if (quizResult) quizResult.classList.add('hidden');
-            if (quizBox) quizBox.classList.remove('hidden');
-            renderQuestion(0);
-        });
+    // a shower from the top of the screen: reserved for perfect scores
+    function fireConfettiShower(count) {
+        for (let i = 0; i < count; i++) {
+            addConfettiPiece(Math.random() * W, -20 - Math.random() * H * .5, (Math.random() - .5) * 90, 60 + Math.random() * 120);
+        }
     }
-    if (quizBox) renderQuestion(0);
+
+    function stepConfetti(now) {
+        const dt = Math.min(.05, (now - confettiLast) / 1000);
+        confettiLast = now;
+        confettiClock += dt;
+        while (confettiWaves.length && confettiWaves[0].at <= confettiClock) confettiWaves.shift().fire();
+
+        const drag = Math.exp(-1.5 * dt), ctx = confettiCtx;
+        ctx.clearRect(0, 0, W, H);
+        for (let i = confettiPieces.length - 1; i >= 0; i--) {
+            const p = confettiPieces[i];
+            p.age += dt;
+            if (p.age >= p.life || p.y > H + 60) { confettiPieces.splice(i, 1); continue; }
+            p.vx *= drag; p.vy = p.vy * drag + 620 * dt;
+            p.x += (p.vx + Math.sin(p.sway) * 34) * dt; p.y += p.vy * dt;
+            p.rot += p.spin * dt; p.flip += p.flipRate * dt; p.sway += p.swayRate * dt;
+            ctx.save();
+            ctx.globalAlpha = Math.min(1, (p.life - p.age) / .7);
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.rot);
+            ctx.scale(1, Math.cos(p.flip));
+            ctx.fillStyle = p.color;
+            if (p.round) { ctx.beginPath(); ctx.arc(0, 0, p.w / 2, 0, 6.29); ctx.fill(); }
+            else ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+            ctx.restore();
+        }
+        if (confettiPieces.length || confettiWaves.length) confettiRAF = requestAnimationFrame(stepConfetti);
+        else stopConfetti();
+    }
+
+    function stopConfetti() {
+        cancelAnimationFrame(confettiRAF);
+        confettiPieces = [];
+        confettiWaves = [];
+        confettiCtx.clearRect(0, 0, W, H);
+        confettiCanvas.classList.remove('is-active');
+    }
+
+    function launchConfetti(perfect) {
+        if (reduce) return;
+        stopConfetti();
+        sizeConfetti();
+        confettiCanvas.classList.add('is-active');
+        confettiClock = 0;
+        confettiLast = performance.now();
+        confettiWaves = perfect
+            ? [
+                { at: 0, fire: () => fireConfettiCannons(110) },
+                { at: .25, fire: () => fireConfettiShower(170) },
+                { at: .55, fire: () => fireConfettiCannons(90) },
+                { at: 1.1, fire: () => fireConfettiCannons(70) }
+            ]
+            : [
+                { at: 0, fire: () => fireConfettiCannons(90) },
+                { at: .5, fire: () => fireConfettiCannons(50) }
+            ];
+        confettiRAF = requestAnimationFrame(stepConfetti);
+    }
+    window.addEventListener('resize', () => { if (confettiCanvas.classList.contains('is-active')) sizeConfetti(); });
+
+    showQuizLevels();
 
     // ====================================================
     // ACADEMIC CITATION MODAL

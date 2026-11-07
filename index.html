@@ -1053,16 +1053,16 @@
                     <div class="scale-card" data-reveal>
                         <div class="scale-controls-bar">
                             <span class="scale-bar-label">Select Perspective Realm:</span>
-                            <div class="scale-btn-group" role="tablist" aria-label="Perspective scale selector">
-                                <button class="scale-btn is-active" data-scale="lilliput" type="button">
+                            <div class="scale-btn-group" role="group" aria-label="Perspective scale selector">
+                                <button class="scale-btn is-active" data-scale="lilliput" type="button" aria-pressed="true">
                                     <span class="scale-ratio">1:12</span>
                                     <span>Part I: Lilliput (Miniature)</span>
                                 </button>
-                                <button class="scale-btn" data-scale="england" type="button">
+                                <button class="scale-btn" data-scale="england" type="button" aria-pressed="false">
                                     <span class="scale-ratio">1:1</span>
                                     <span>England (Normal Human)</span>
                                 </button>
-                                <button class="scale-btn" data-scale="brobdingnag" type="button">
+                                <button class="scale-btn" data-scale="brobdingnag" type="button" aria-pressed="false">
                                     <span class="scale-ratio">12:1</span>
                                     <span>Part II: Brobdingnag (Giants)</span>
                                 </button>
@@ -1072,19 +1072,19 @@
                         <div class="scale-stage-grid">
                             <!-- Visual Graphic Scale Stage -->
                             <div class="scale-stage-visual">
-                                <div class="scale-ruler">
-                                    <span class="ruler-mark" style="top: 0%;">72 ft</span>
-                                    <span class="ruler-mark" style="top: 35%;">20 ft</span>
-                                    <span class="ruler-mark" style="top: 70%;">6 ft</span>
-                                    <span class="ruler-mark" style="top: 95%;">6 in</span>
-                                    <span class="ruler-mark" style="bottom: 0;">0</span>
+                                <div class="scale-ruler" id="scale-ruler" aria-hidden="true">
+                                    <span class="ruler-mark" style="bottom:100%">6 ft</span>
+                                    <span class="ruler-mark" style="bottom:66.67%">4 ft</span>
+                                    <span class="ruler-mark" style="bottom:33.33%">2 ft</span>
+                                    <span class="ruler-mark" style="bottom:8.33%">6 in</span>
+                                    <span class="ruler-mark" style="bottom:0%">0</span>
                                 </div>
 
                                 <div class="scale-actors" id="scale-actors-wrap">
                                     <!-- Gulliver Silhouette -->
                                     <div class="scale-figure scale-gulliver" id="fig-gulliver">
                                         <div class="fig-label" id="fig-gulliver-lbl">Gulliver (6 ft)</div>
-                                        <svg viewBox="0 0 100 240" fill="currentColor">
+                                        <svg viewBox="0 4 100 226" fill="currentColor" aria-hidden="true">
                                             <circle cx="50" cy="24" r="16"/>
                                             <path d="M30 46 L70 46 L62 130 L74 230 L54 230 L50 144 L46 230 L26 230 L38 130 Z"/>
                                             <polygon points="24,18 76,18 50,4"/>
@@ -1094,7 +1094,7 @@
                                     <!-- Realm Native Silhouette -->
                                     <div class="scale-figure scale-native" id="fig-native">
                                         <div class="fig-label" id="fig-native-lbl">Lilliputian (6 in)</div>
-                                        <svg viewBox="0 0 100 240" fill="currentColor">
+                                        <svg viewBox="0 4 100 226" fill="currentColor" aria-hidden="true">
                                             <circle cx="50" cy="24" r="16"/>
                                             <path d="M30 46 L70 46 L62 130 L74 230 L54 230 L50 144 L46 230 L26 230 L38 130 Z"/>
                                             <line x1="82" y1="10" x2="82" y2="230" stroke="currentColor" stroke-width="6"/>
@@ -1104,7 +1104,7 @@
                             </div>
 
                             <!-- Scale Metrics & Swiftian Commentary -->
-                            <div class="scale-analysis-panel">
+                            <div class="scale-analysis-panel" id="scale-panel" aria-live="polite">
                                 <div class="scale-stats-row">
                                     <div class="scale-stat">
                                         <span class="stat-name">Scale Ratio</span>
@@ -1119,7 +1119,7 @@
                                         <b class="stat-val" id="stat-native-h">6 in (0.5 ft)</b>
                                     </div>
                                     <div class="scale-stat">
-                                        <span class="stat-name">Volumetric Mass</span>
+                                        <span class="stat-name">Mass (Gulliver : Native)</span>
                                         <b class="stat-val" id="stat-mass">1,728 : 1</b>
                                     </div>
                                 </div>
@@ -1406,14 +1406,36 @@
                                     <span class="quiz-badge">Student Comprehension Check</span>
                                     <h3 class="h3 quiz-title">Test Your Swiftian Acumen</h3>
                                 </div>
-                                <span class="quiz-step" id="quiz-step-count">Question 1 of 5</span>
+                                <span class="quiz-step" id="quiz-step-count">Choose a level</span>
                             </div>
 
-                            <div class="quiz-progress-bar"><span id="quiz-progress-fill"></span></div>
+                            <div class="quiz-progress-bar hidden" id="quiz-progress"><span id="quiz-progress-fill"></span></div>
+
+                            <!-- Difficulty Picker (shown first) -->
+                            <div id="quiz-start" class="quiz-start">
+                                <p class="quiz-question">Choose your difficulty</p>
+                                <div class="quiz-levels" role="group" aria-label="Quiz difficulty">
+                                    <button class="quiz-level" data-level="easy" type="button">
+                                        <span class="quiz-level-pips" aria-hidden="true"><i class="on"></i><i></i><i></i></span>
+                                        <span class="quiz-level-text"><b>Easy</b><small>The basics: who, what, and where in the four voyages.</small></span>
+                                        <span class="quiz-level-count">5 questions</span>
+                                    </button>
+                                    <button class="quiz-level" data-level="mid" type="button">
+                                        <span class="quiz-level-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>
+                                        <span class="quiz-level-text"><b>Mid</b><small>The satire behind the book’s most famous episodes.</small></span>
+                                        <span class="quiz-level-count">5 questions</span>
+                                    </button>
+                                    <button class="quiz-level" data-level="hard" type="button">
+                                        <span class="quiz-level-pips" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+                                        <span class="quiz-level-text"><b>Hard</b><small>Deep cuts: the politics and allegory scholars study.</small></span>
+                                        <span class="quiz-level-count">5 questions</span>
+                                    </button>
+                                </div>
+                            </div>
 
                             <!-- Question Card Container -->
-                            <div id="quiz-box" class="quiz-box">
-                                <p class="quiz-question" id="quiz-question-text">Loading examination question...</p>
+                            <div id="quiz-box" class="quiz-box hidden">
+                                <p class="quiz-question" id="quiz-question-text" tabindex="-1">Loading examination question...</p>
                                 <div class="quiz-options" id="quiz-options-group">
                                     <!-- Dynamic options inserted here via JS -->
                                 </div>
@@ -1425,12 +1447,16 @@
 
                             <!-- Final Results View (hidden initially) -->
                             <div id="quiz-result" class="quiz-result hidden">
-                                <div class="quiz-score-circle">
-                                    <span id="quiz-score-num">5</span><small>/ 5</small>
+                                <div class="quiz-score-circle" id="quiz-score-circle">
+                                    <span id="quiz-score-num">5</span><small id="quiz-score-total">/ 5</small>
                                 </div>
-                                <h4 id="quiz-verdict-title" class="quiz-verdict">Master Houyhnhnm Sage</h4>
+                                <p id="quiz-celebrate" class="quiz-celebrate hidden"></p>
+                                <h4 id="quiz-verdict-title" class="quiz-verdict" tabindex="-1">Master Houyhnhnm Sage</h4>
                                 <p id="quiz-verdict-desc" class="quiz-verdict-desc">You possess pure, uncorrupted Stoic reason. Swift himself would welcome your commentary.</p>
-                                <button id="quiz-retry-btn" class="btn btn--quiet" type="button">Retake Examination</button>
+                                <div class="quiz-result-actions">
+                                    <button id="quiz-retry-btn" class="btn" type="button">Retake Examination</button>
+                                    <button id="quiz-levels-btn" class="btn btn--quiet" type="button">Choose Another Level</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1713,7 +1739,7 @@
                         <div class="team-grid">
                             <!-- Member 1: John Lloyd Cuario -->
                             <div class="member-card" data-reveal>
-                                <div class="member-avatar">JLC</div>
+                                <div class="member-avatar"><img src="assets/images/members/cuario.jpg" alt="Portrait of John Lloyd Cuario" width="480" height="480" loading="lazy" decoding="async"></div>
                                 <div class="member-info">
                                     <h4 class="member-name">John Lloyd Cuario</h4>
                                     <span class="member-role">Project Lead &amp; Systems Architecture</span>
@@ -1723,7 +1749,7 @@
 
                             <!-- Member 2: Eljohn Paulo Loterte -->
                             <div class="member-card" data-reveal style="--i:1">
-                                <div class="member-avatar">EPL</div>
+                                <div class="member-avatar"><img src="assets/images/members/loterte.jpg" alt="Portrait of Eljohn Paulo Loterte" width="480" height="480" loading="lazy" decoding="async"></div>
                                 <div class="member-info">
                                     <h4 class="member-name">Eljohn Paulo Loterte</h4>
                                     <span class="member-role">Frontend Interaction &amp; 3D Dynamics</span>
@@ -1733,7 +1759,7 @@
 
                             <!-- Member 3: Victor Noel Napay -->
                             <div class="member-card" data-reveal style="--i:2">
-                                <div class="member-avatar">VNN</div>
+                                <div class="member-avatar"><img src="assets/images/members/napay.jpg" alt="Portrait of Victor Noel Napay" width="480" height="480" loading="lazy" decoding="async"></div>
                                 <div class="member-info">
                                     <h4 class="member-name">Victor Noel Napay</h4>
                                     <span class="member-role">Creative Art Director &amp; UI/UX</span>
@@ -1743,7 +1769,7 @@
 
                             <!-- Member 4: Sean Jerve Rebancos -->
                             <div class="member-card" data-reveal style="--i:3">
-                                <div class="member-avatar">SJR</div>
+                                <div class="member-avatar"><img src="assets/images/members/rebancos.jpg" alt="Portrait of Sean Jerve Rebancos" width="480" height="480" loading="lazy" decoding="async"></div>
                                 <div class="member-info">
                                     <h4 class="member-name">Sean Jerve Rebancos</h4>
                                     <span class="member-role">Literary Analyst &amp; Satire Researcher</span>
@@ -1753,7 +1779,7 @@
 
                             <!-- Member 5: Kiel Hedrix Relos -->
                             <div class="member-card" data-reveal style="--i:4">
-                                <div class="member-avatar">KHR</div>
+                                <div class="member-avatar"><img src="assets/images/members/relos.jpg" alt="Portrait of Kiel Hedrix Relos" width="480" height="480" loading="lazy" decoding="async"></div>
                                 <div class="member-info">
                                     <h4 class="member-name">Kiel Hedrix Relos</h4>
                                     <span class="member-role">QA, Accessibility &amp; Documentation</span>
@@ -1833,6 +1859,9 @@
             <p id="lightbox-caption" class="lightbox-caption"></p>
         </div>
     </div>
+
+    <!-- Quiz Celebration Layer -->
+    <canvas id="quiz-confetti" class="quiz-confetti" aria-hidden="true"></canvas>
 
     <!-- Notification Toast -->
     <div id="toast" class="toast" aria-live="polite"></div>
