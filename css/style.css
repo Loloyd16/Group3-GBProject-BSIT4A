@@ -1799,6 +1799,20 @@ html.js .scrub .wd.lit { opacity: 1; }
 .chart-point.active {
     opacity: 1;
 }
+.chart-details-panel > *, .psych-details-grid > * {
+    transition: opacity 0.18s ease;
+}
+.chart-details-panel.is-swapping > *, .psych-details-grid.is-swapping > * {
+    opacity: 0;
+}
+.chart-tab:focus-visible, .psych-node:focus-visible, .gloss-pill:focus-visible {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+}
+[data-theme="midnight"] .chart-tab.is-active,
+[data-theme="midnight"] .psych-node.is-active,
+[data-theme="midnight"] .gloss-pill.is-active { color: #fff; }
+[data-theme="midnight"] .chart-destination, [data-theme="midnight"] .chart-tag, [data-theme="midnight"] .psych-diagnosis h4 { color: #6fa8c4; }
 .chart-details-panel {
     background: var(--paper);
     border: 1px solid rgba(27, 35, 38, 0.1);
@@ -1936,6 +1950,7 @@ html.js .scrub .wd.lit { opacity: 1; }
 }
 .psych-node {
     background: var(--paper);
+    color: var(--ink);
     border: 1px solid rgba(27, 35, 38, 0.12);
     border-radius: 10px;
     padding: 12px 10px;
@@ -2306,6 +2321,9 @@ html.js .scrub .wd.lit { opacity: 1; }
     border: 1px solid rgba(27, 35, 38, 0.12);
     width: min(100%, 360px);
 }
+.gloss-search-box:focus-within {
+    border-color: var(--sea);
+}
 .gloss-search-box svg {
     width: 16px;
     height: 16px;
@@ -2343,6 +2361,12 @@ html.js .scrub .wd.lit { opacity: 1; }
     color: var(--paper);
     border-color: var(--sea);
 }
+.gloss-status {
+    margin: -12px 0 16px;
+    font-size: 0.9375rem;
+    color: var(--ink-2);
+}
+.gloss-status:empty { display: none; }
 .gloss-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -2477,4 +2501,6 @@ html.js .scrub .wd.lit { opacity: 1; }
     .refs-frame { position: relative !important; height: auto !important; }
     .quiz-score-circle.is-celebrating, .quiz-score-circle.is-perfect, .quiz-celebrate { animation: none; }
     .scale-figure, .scale-stat, .scale-narrative-box { transition: none; }
+    .chart-details-panel > *, .psych-details-grid > *, .psych-gauge-fill { transition: none; }
+    .chart-route.active { animation: none; }
 }

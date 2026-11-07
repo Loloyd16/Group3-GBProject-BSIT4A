@@ -631,11 +631,11 @@
                             <h3 class="chart-title">The Four Fictional Maritime Tracks</h3>
                             <p class="chart-subtitle">Select a voyage to plot coordinates, inspect vessels, and decode Swift’s cartographic illusions.</p>
                             
-                            <div class="chart-tabs" role="tablist" aria-label="Select voyage track">
-                                <button class="chart-tab is-active" data-v="1" type="button">Voyage I (1699)</button>
-                                <button class="chart-tab" data-v="2" type="button">Voyage II (1702)</button>
-                                <button class="chart-tab" data-v="3" type="button">Voyage III (1706)</button>
-                                <button class="chart-tab" data-v="4" type="button">Voyage IV (1710)</button>
+                            <div class="chart-tabs" role="group" aria-label="Select voyage track">
+                                <button class="chart-tab is-active" data-v="1" type="button" aria-pressed="true">Voyage I (1699)</button>
+                                <button class="chart-tab" data-v="2" type="button" aria-pressed="false">Voyage II (1702)</button>
+                                <button class="chart-tab" data-v="3" type="button" aria-pressed="false">Voyage III (1706)</button>
+                                <button class="chart-tab" data-v="4" type="button" aria-pressed="false">Voyage IV (1710)</button>
                             </div>
                         </div>
 
@@ -677,7 +677,7 @@
 
                                         <!-- Origin: England -->
                                         <circle cx="120" cy="110" r="5" fill="#1b2326"/>
-                                        <text x="120" y="98" text-anchor="middle" font-family="Instrument Sans, sans-serif" font-size="10" font-weight="600" fill="#1b2326">Bristol, England</text>
+                                        <text x="120" y="98" text-anchor="middle" font-family="Instrument Sans, sans-serif" font-size="10" font-weight="600" fill="#1b2326" id="chart-origin-label">Bristol, England</text>
 
                                         <!-- Destination Waypoints -->
                                         <g id="waypoint-1" class="chart-point active" transform="translate(430, 310)">
@@ -688,12 +688,12 @@
                                         <g id="waypoint-2" class="chart-point" transform="translate(500, 130)">
                                             <circle cx="0" cy="0" r="7" fill="#8a6526"/>
                                             <circle cx="0" cy="0" r="14" fill="none" stroke="#8a6526" stroke-width="1.2" opacity="0.6"/>
-                                            <text x="16" y="4" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#8a6526">Brobdingnag (54° N)</text>
+                                            <text x="0" y="26" text-anchor="middle" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#8a6526">Brobdingnag (44° N)</text>
                                         </g>
                                         <g id="waypoint-3" class="chart-point" transform="translate(540, 180)">
                                             <circle cx="0" cy="0" r="7" fill="#2b6782"/>
                                             <circle cx="0" cy="0" r="14" fill="none" stroke="#2b6782" stroke-width="1.2" opacity="0.6"/>
-                                            <text x="16" y="4" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#2b6782">Laputa (46° N, 183° E)</text>
+                                            <text x="0" y="26" text-anchor="middle" font-family="Fraunces, serif" font-size="11" font-weight="600" fill="#2b6782">Laputa (46° N, 183°)</text>
                                         </g>
                                         <g id="waypoint-4" class="chart-point" transform="translate(400, 340)">
                                             <circle cx="0" cy="0" r="7" fill="#2f6b4f"/>
@@ -705,7 +705,7 @@
                             </div>
 
                             <!-- Dynamic Nautical Card -->
-                            <div class="chart-details-panel" id="chart-details">
+                            <div class="chart-details-panel" id="chart-details" aria-live="polite">
                                 <span class="chart-vessel" id="chart-vessel">Vessel: The Antelope (Bristol)</span>
                                 <h4 class="chart-destination" id="chart-destination">Voyage I: Lilliput &amp; Blefuscu</h4>
                                 <div class="chart-coords">
@@ -716,7 +716,7 @@
                                     “We were driven by a violent storm to the north-west of Van Diemen’s Land... twelve of our crew were dead by immoderate labour and ill food; the rest were in a very weak condition.”
                                 </blockquote>
                                 <div class="chart-catalyst" id="chart-catalyst">
-                                    <b>Maritime Catastrophe:</b> The ship splits against a sunken rock during a tempest. Gulliver swims until exhausted, falling into a 9-hour slumber on the beach.
+                                    <b>Maritime Catastrophe:</b> <span id="chart-catalyst-text">The ship splits against a sunken rock during a tempest. Gulliver swims until exhausted, falling into a 9-hour slumber on the beach.</span>
                                 </div>
                             </div>
                         </div>
@@ -835,28 +835,28 @@
                         </div>
 
                         <!-- 5 Milestone Navigation Points -->
-                        <div class="psych-milestones" role="tablist" aria-label="Gulliver psychological stages">
-                            <button class="psych-node is-active" data-stage="0" type="button">
+                        <div class="psych-milestones" role="group" aria-label="Gulliver psychological stages">
+                            <button class="psych-node is-active" data-stage="0" type="button" aria-pressed="true">
                                 <span class="node-dot"></span>
                                 <span class="node-year">1699</span>
                                 <span class="node-title">I. Lilliput</span>
                             </button>
-                            <button class="psych-node" data-stage="1" type="button">
+                            <button class="psych-node" data-stage="1" type="button" aria-pressed="false">
                                 <span class="node-dot"></span>
                                 <span class="node-year">1703</span>
                                 <span class="node-title">II. Brobdingnag</span>
                             </button>
-                            <button class="psych-node" data-stage="2" type="button">
+                            <button class="psych-node" data-stage="2" type="button" aria-pressed="false">
                                 <span class="node-dot"></span>
                                 <span class="node-year">1707</span>
                                 <span class="node-title">III. Laputa</span>
                             </button>
-                            <button class="psych-node" data-stage="3" type="button">
+                            <button class="psych-node" data-stage="3" type="button" aria-pressed="false">
                                 <span class="node-dot"></span>
                                 <span class="node-year">1711</span>
                                 <span class="node-title">IV. Houyhnhnms</span>
                             </button>
-                            <button class="psych-node" data-stage="4" type="button">
+                            <button class="psych-node" data-stage="4" type="button" aria-pressed="false">
                                 <span class="node-dot"></span>
                                 <span class="node-year">1715+</span>
                                 <span class="node-title">V. Redriff Stable</span>
@@ -864,7 +864,7 @@
                         </div>
 
                         <!-- Detail Stage Box -->
-                        <div class="psych-details-grid">
+                        <div class="psych-details-grid" aria-live="polite">
                             <div class="psych-journal">
                                 <span class="journal-tag">Narrator’s Primary Journal Entry</span>
                                 <blockquote class="journal-quote" id="psych-quote">
@@ -1482,14 +1482,15 @@
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
                                 <input type="text" id="gloss-search" placeholder="Search Swiftian terms (e.g. Yahoo, Flapper, Houyhnhnm)..." aria-label="Search glossary terms">
                             </div>
-                            <div class="gloss-filter-pills" role="tablist">
-                                <button class="gloss-pill is-active" data-cat="all" type="button">All Terms (10)</button>
-                                <button class="gloss-pill" data-cat="v1" type="button">Voyage I: Lilliput</button>
-                                <button class="gloss-pill" data-cat="v2" type="button">Voyage II: Brobdingnag</button>
-                                <button class="gloss-pill" data-cat="v3" type="button">Voyage III: Laputa</button>
-                                <button class="gloss-pill" data-cat="v4" type="button">Voyage IV: Houyhnhnms</button>
+                            <div class="gloss-filter-pills" role="group" aria-label="Filter terms by voyage">
+                                <button class="gloss-pill is-active" data-cat="all" type="button" aria-pressed="true">All Terms (10)</button>
+                                <button class="gloss-pill" data-cat="v1" type="button" aria-pressed="false">Voyage I: Lilliput</button>
+                                <button class="gloss-pill" data-cat="v2" type="button" aria-pressed="false">Voyage II: Brobdingnag</button>
+                                <button class="gloss-pill" data-cat="v3" type="button" aria-pressed="false">Voyage III: Laputa</button>
+                                <button class="gloss-pill" data-cat="v4" type="button" aria-pressed="false">Voyage IV: Houyhnhnms</button>
                             </div>
                         </div>
+                        <p class="gloss-status" id="gloss-status" role="status"></p>
 
                         <div class="gloss-grid" id="gloss-grid">
                             <!-- Term 1: Yahoo -->

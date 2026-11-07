@@ -857,6 +857,195 @@
     }
 
     // ====================================================
+    // SHARED: TOGGLE BUTTONS & TEXT CROSSFADE
+    // ====================================================
+    function markPressed(buttons, isOn) {
+        buttons.forEach(btn => {
+            const on = isOn(btn);
+            btn.classList.toggle('is-active', on);
+            btn.setAttribute('aria-pressed', String(on));
+        });
+    }
+    const swapTimers = new WeakMap();
+    function crossfade(panel, update) {
+        clearTimeout(swapTimers.get(panel));
+        panel.classList.add('is-swapping');
+        swapTimers.set(panel, setTimeout(() => {
+            update();
+            panel.classList.remove('is-swapping');
+        }, reduce ? 0 : 180));
+    }
+
+    // ====================================================
+    // NAUTICAL CARTOGRAPHY — VOYAGE TRACKS
+    // ====================================================
+    const CHART_VOYAGES = {
+        1: {
+            origin: 'Bristol, England',
+            vessel: 'Vessel: The Antelope (Bristol)',
+            destination: 'Voyage I: Lilliput & Blefuscu',
+            coord: 'Coordinates: 30° 2′ South Latitude (East Indies)',
+            dates: 'Duration: May 4, 1699 – April 13, 1702',
+            quote: '“We were driven by a violent storm to the north-west of Van Diemen’s Land... twelve of our crew were dead by immoderate labour and ill food; the rest were in a very weak condition.”',
+            catalyst: 'The ship splits against a sunken rock during a tempest. Gulliver swims until exhausted, falling into a 9-hour slumber on the beach.'
+        },
+        2: {
+            origin: 'The Downs, England',
+            vessel: 'Vessel: The Adventure (The Downs)',
+            destination: 'Voyage II: Brobdingnag',
+            coord: 'Coordinates: Rescued near 44° North, Longitude 143',
+            dates: 'Duration: June 20, 1702 – June 3, 1706',
+            quote: '“On the 16th day of June, 1703, a boy on the top-mast discovered land. On the 17th, we came in full view of a great island, or continent...”',
+            catalyst: 'Sent ashore for fresh water, the crew flee in terror from a pursuing giant. Gulliver, who had wandered off alone, is left behind and found by a reaper in a field of towering corn.'
+        },
+        3: {
+            origin: 'England',
+            vessel: 'Vessel: The Hopewell (Capt. William Robinson)',
+            destination: 'Voyage III: Laputa & Balnibarbi',
+            coord: 'Coordinates: 46° North, Longitude 183',
+            dates: 'Duration: August 5, 1706 – April 16, 1710',
+            quote: '“Upon the tenth day we were chased by two pirates, who soon overtook us; for my sloop was so deep laden, that she sailed very slow, neither were we in a condition to defend ourselves.”',
+            catalyst: 'Captured by pirates, Gulliver is set adrift alone in a small canoe. He reaches a chain of rocky islands, where the flying island of Laputa hauls him aboard.'
+        },
+        4: {
+            origin: 'Portsmouth, England',
+            vessel: 'Vessel: The Adventurer (Portsmouth)',
+            destination: 'Voyage IV: Land of the Houyhnhnms',
+            coord: 'Coordinates: About 45° South Latitude (Gulliver’s estimate)',
+            dates: 'Duration: August 7, 1710 – December 5, 1715',
+            quote: '“These rogues, whom I had picked up, debauched my other men, and they all formed a conspiracy to seize the ship, and secure me...”',
+            catalyst: 'Now a captain himself, Gulliver is overthrown by mutineers, held prisoner in his own cabin, and put ashore on an unknown coast on May 9, 1711.'
+        }
+    };
+
+    const chartTabs = $$('.chart-tab');
+    const chartDetails = $('#chart-details');
+
+    function setVoyage(v) {
+        const voyage = CHART_VOYAGES[v];
+        if (!voyage) return;
+        markPressed(chartTabs, btn => btn.dataset.v === String(v));
+        for (const n of Object.keys(CHART_VOYAGES)) {
+            const on = n === String(v);
+            $(`#route-line-${n}`).classList.toggle('active', on);
+            $(`#waypoint-${n}`).classList.toggle('active', on);
+        }
+        $('#chart-origin-label').textContent = voyage.origin;
+        crossfade(chartDetails, () => {
+            $('#chart-vessel').textContent = voyage.vessel;
+            $('#chart-destination').textContent = voyage.destination;
+            $('#chart-coord').textContent = voyage.coord;
+            $('#chart-dates').textContent = voyage.dates;
+            $('#chart-quote').textContent = voyage.quote;
+            $('#chart-catalyst-text').textContent = voyage.catalyst;
+        });
+    }
+    chartTabs.forEach(btn => btn.addEventListener('click', () => setVoyage(btn.dataset.v)));
+    // the points on the map work as a mouse shortcut; the tabs remain the keyboard route
+    for (const n of Object.keys(CHART_VOYAGES)) $(`#waypoint-${n}`).addEventListener('click', () => setVoyage(n));
+
+    // ====================================================
+    // PSYCHOLOGICAL DESCENT TRACKER
+    // ====================================================
+    // The index is the site's interpretive reading of the book, not a figure from it.
+    const PSYCH_STAGES = [
+        {
+            pct: 0,
+            title: '1699: The Patriotic Rationalist',
+            quote: '“I had been condemned by nature and fortune to an active and restless life... I took ship with noble hopes, believing the world governed by honor, religion, and the majesty of my sovereign.”',
+            cite: '— Lemuel Gulliver, First Surgeon of Several Ships (1699)',
+            desc: 'Gulliver begins as the archetypal Enlightenment optimist. He believes in British moral superiority, colonial benevolence, and the innate nobility of mankind. His naivety prevents him from recognizing that the tiny court of Lilliput is an exact mirror of European corruption.',
+            shift: 'Innocent patriotism; absolute trust in European customs and royal power.'
+        },
+        {
+            pct: 30,
+            title: '1703: The Humiliated Patriot',
+            quote: '“...my colour came and went several times, with indignation, to hear our noble country, the mistress of arts and arms, the scourge of France, the arbitress of Europe, the seat of virtue, piety, honour, and truth, the pride and envy of the world, so contemptuously treated.”',
+            cite: '— Lemuel Gulliver, at the Court of Brobdingnag (Part II, Ch. III)',
+            desc: 'In Brobdingnag, Gulliver is the fragile one, and he defends England all the harder for it. The King’s contempt stings, yet he still offers the secret of gunpowder and blames the refusal on the King’s “narrow principles.” His pride is shaken but not yet broken.',
+            shift: 'Wounded national pride; the first doubts, answered with louder patriotism.'
+        },
+        {
+            pct: 50,
+            title: '1707: The Disillusioned Spectator',
+            quote: '“I grew heartily ashamed of the pleasing visions I had formed; and thought no tyrant could invent a death into which I would not run with pleasure, from such a life.”',
+            cite: '— Lemuel Gulliver, on the Struldbruggs of Luggnagg (Part III, Ch. X)',
+            desc: 'Laputa’s useless science, the ghosts of Glubbdubdrib, and the miserable immortal Struldbruggs strip away Gulliver’s faith in learning, history, and even long life. He is now more spectator than participant, cooling toward every human ambition he meets.',
+            shift: 'Loss of faith in knowledge and progress; detached disappointment.'
+        },
+        {
+            pct: 85,
+            title: '1711: The Convert to Reason',
+            quote: '“When I thought of my family, my friends, my countrymen, or the human race in general, I considered them, as they really were, Yahoos in shape and disposition, perhaps a little more civilized, and qualified with the gift of speech...”',
+            cite: '— Lemuel Gulliver, among the Houyhnhnms (Part IV, Ch. X)',
+            desc: 'Among the Houyhnhnms, Gulliver takes pure reason for the highest good and recoils from the Yahoo in himself. He even begins to imitate the horses’ gait and gesture. The break is nearly complete: he no longer counts himself as one of humankind.',
+            shift: 'Total identification with the Houyhnhnms; disgust at his own species.'
+        },
+        {
+            pct: 100,
+            title: '1715+: The Stable Misanthrope',
+            quote: '“As soon as I entered the house, my wife took me in her arms, and kissed me; at which, having not been used to the touch of that odious animal for so many years, I fell into a swoon for almost an hour.”',
+            cite: '— Lemuel Gulliver, home at Redriff (Part IV, Ch. XI)',
+            desc: 'Home at Redriff, Gulliver cannot bear his family and spends hours each day talking with his horses. He rails against human pride without noticing his own. That blindness is the final irony of Swift’s satire: the reason he prized has hardened into contempt.',
+            shift: 'Complete misanthropy; reverence for reason turned into a new kind of pride.'
+        }
+    ];
+
+    const psychNodes = $$('.psych-node');
+    const psychDetails = $('.psych-details-grid');
+
+    function setPsychStage(index) {
+        const stage = PSYCH_STAGES[index];
+        if (!stage) return;
+        markPressed(psychNodes, btn => btn.dataset.stage === String(index));
+        $('#psych-gauge-fill').style.width = `${stage.pct}%`;
+        $('#psych-pct').textContent = `${stage.pct}%`;
+        $('#psych-title').textContent = stage.title;
+        crossfade(psychDetails, () => {
+            $('#psych-quote').textContent = stage.quote;
+            $('#psych-cite').textContent = stage.cite;
+            $('#psych-desc').textContent = stage.desc;
+            $('#psych-shift').textContent = stage.shift;
+        });
+    }
+    psychNodes.forEach(btn => btn.addEventListener('click', () => setPsychStage(Number(btn.dataset.stage))));
+
+    // ====================================================
+    // SWIFTIAN GLOSSARY — SEARCH & VOYAGE FILTER
+    // ====================================================
+    const glossSearch = $('#gloss-search');
+    const glossPills = $$('.gloss-pill');
+    const glossStatus = $('#gloss-status');
+    const normalizeTerm = s => s.toLowerCase().replace(/[-\s]+/g, ' ').trim();
+    // index the words of each entry, leaving out labels like "Original Definition:"
+    // that appear on every card and would make every search match everything
+    const glossCards = $$('.gloss-card').map(el => {
+        const copy = el.cloneNode(true);
+        $$('b', copy).forEach(label => label.remove());
+        return { el, cat: el.dataset.cat, text: normalizeTerm(copy.textContent) };
+    });
+    let glossCat = 'all';
+
+    function applyGlossFilter() {
+        const query = normalizeTerm(glossSearch.value);
+        let shown = 0;
+        for (const card of glossCards) {
+            const match = (glossCat === 'all' || card.cat === glossCat) && card.text.includes(query);
+            card.el.classList.toggle('is-hidden', !match);
+            if (match) shown++;
+        }
+        if (shown === 0) glossStatus.textContent = 'No terms match. Try another word or choose All Terms.';
+        else if (shown === glossCards.length) glossStatus.textContent = '';
+        else glossStatus.textContent = `Showing ${shown} of ${glossCards.length} terms.`;
+    }
+    glossSearch.addEventListener('input', applyGlossFilter);
+    glossPills.forEach(pill => pill.addEventListener('click', () => {
+        glossCat = pill.dataset.cat;
+        markPressed(glossPills, btn => btn === pill);
+        applyGlossFilter();
+    }));
+
+    // ====================================================
     // THE SCALE OF MAN — PERSPECTIVE REALM SELECTOR
     // ====================================================
     // Heights are fractions of the stage's full figure height. Each realm has its
