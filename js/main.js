@@ -71,7 +71,16 @@
         night:  { skyT: '#0a141a', skyH: '#21384a', seaH: '#2a4253', seaD: '#07121a', sun: '#f3ecd9', cloud: '#2c404e', cloudS: '#16242d', haze: '#273d4e', foam: '#9db1bb', sunX: .76, sunAlt: .52, sunA: 0, moonA: 1, stars: 1, night: 1, shipX: .42, shipS: .9, isl: [0, 0, 0, 0] }
     };
     for (const p of Object.values(PRESETS)) for (const k of COLORS) p[k] = hex(p[k]);
-    const S = JSON.parse(JSON.stringify(PRESETS.dawn));
+    // Midnight Deck keeps each chapter's course and islands, but sails it after dark
+    const NIGHTFALL = {};
+    for (const [name, p] of Object.entries(PRESETS)) {
+        NIGHTFALL[name] = { ...PRESETS.night, sunX: .9, sunAlt: .8, shipX: p.shipX, shipS: p.shipS, isl: p.isl };
+    }
+    const presetsNow = () => root.dataset.theme === 'midnight' ? NIGHTFALL : PRESETS;
+    const S = JSON.parse(JSON.stringify(presetsNow().dawn));
+    // the sky normally drifts between chapters; a mode switch hurries it along
+    const SKY_DRIFT = 1.8, SKY_SWITCH = 9;
+    let skyRate = SKY_DRIFT;
 
     // clouds, stars, gulls, spray
     const rand = (() => { let s = 7; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
@@ -560,8 +569,10 @@
 
         // blend the scene toward the active chapter's preset
         const key = sceneEl ? sceneEl.dataset.scene : 'dawn';
-        const P = PRESETS[key] || PRESETS.dawn;
-        const k = reduce ? 1 : 1 - Math.exp(-dt * 1.8);
+        const presets = presetsNow();
+        const P = presets[key] || presets.dawn;
+        skyRate = Math.max(SKY_DRIFT, skyRate - dt * 8);
+        const k = reduce ? 1 : 1 - Math.exp(-dt * skyRate);
         for (const c of COLORS) S[c] = mixc(S[c], P[c], k);
         for (const n of ['sunX', 'sunAlt', 'sunA', 'moonA', 'stars', 'night', 'shipX', 'shipS']) S[n] = lerp(S[n], P[n], k);
         for (let i = 0; i < 4; i++) S.isl[i] = lerp(S.isl[i], P.isl[i], k);
@@ -622,19 +633,18 @@
         nav.classList.remove('is-hidden');
         if (lenis) lenis.stop();
     });
-    [['#mobile-characters-btn', '#mobile-characters-list', '#mobile-char-arrow'], ['#mobile-places-btn', '#mobile-places-list', '#mobile-place-arrow']].forEach(([b, l, a]) => {
-        $(b).addEventListener('click', () => { $(l).classList.toggle('hidden'); $(a).classList.toggle('rotate-180'); });
+    $('#mobile-characters-btn').addEventListener('click', () => {
+        $('#mobile-characters-list').classList.toggle('hidden');
+        $('#mobile-char-arrow').classList.toggle('rotate-180');
     });
     function closeDropdowns() { $$('.dd.open').forEach(d => { d.classList.remove('open'); d.firstElementChild.setAttribute('aria-expanded', 'false'); }); }
-    ['#characters-dropdown-btn', '#places-dropdown-btn'].forEach(sel => {
-        const btn = $(sel);
-        btn.addEventListener('click', e => {
-            e.stopPropagation();
-            const dd = btn.closest('.dd'), open = !dd.classList.contains('open');
-            closeDropdowns();
-            dd.classList.toggle('open', open);
-            btn.setAttribute('aria-expanded', String(open));
-        });
+    const charactersBtn = $('#characters-dropdown-btn');
+    charactersBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        const dd = charactersBtn.closest('.dd'), open = !dd.classList.contains('open');
+        closeDropdowns();
+        dd.classList.toggle('open', open);
+        charactersBtn.setAttribute('aria-expanded', String(open));
     });
     document.addEventListener('click', e => { if (!e.target.closest('.dd')) closeDropdowns(); });
     document.addEventListener('keydown', e => {
@@ -791,27 +801,27 @@
     // ====================================================
     // READING MODE SWITCHER
     // ====================================================
-    const THEMES = ['parchment', 'midnight', 'academic'];
-    const THEME_NAMES = { parchment: 'Parchment', midnight: 'Midnight Deck', academic: 'Academic Print' };
-    let currentThemeIdx = 0;
-    const savedTheme = localStorage.getItem('gt_theme');
-    if (savedTheme && THEMES.includes(savedTheme)) {
-        currentThemeIdx = THEMES.indexOf(savedTheme);
-        root.dataset.theme = savedTheme;
-    }
-    function cycleTheme() {
-        currentThemeIdx = (currentThemeIdx + 1) % THEMES.length;
-        const nextTheme = THEMES[currentThemeIdx];
-        root.dataset.theme = nextTheme;
-        localStorage.setItem('gt_theme', nextTheme);
-        const mobileThemeText = $('#mobile-theme-text');
-        if (mobileThemeText) mobileThemeText.textContent = `Mode: ${THEME_NAMES[nextTheme]}`;
-        showToast(`Reading Mode: ${THEME_NAMES[nextTheme]}`);
-    }
+    // Academic Print is the default; the saved choice is restored in <head> before first paint.
+    const MODE_NAMES = { academic: 'Academic Print', midnight: 'Midnight Deck' };
+    const otherMode = () => root.dataset.theme === 'midnight' ? 'academic' : 'midnight';
     const themeToggle = $('#theme-toggle');
-    const mobileThemeToggle = $('#mobile-theme-toggle');
-    if (themeToggle) themeToggle.addEventListener('click', cycleTheme);
-    if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', cycleTheme);
+    function labelModeControls() {
+        const label = `Switch to ${MODE_NAMES[otherMode()]}`;
+        themeToggle.title = label;
+        themeToggle.setAttribute('aria-label', label);
+        $('#mobile-theme-text').textContent = label;
+    }
+    function switchReadingMode() {
+        const next = otherMode();
+        root.dataset.theme = next;
+        skyRate = SKY_SWITCH;
+        try { localStorage.setItem('gt_reading_mode', next); } catch (e) {}
+        labelModeControls();
+        showToast(`Reading Mode: ${MODE_NAMES[next]}`);
+    }
+    labelModeControls();
+    themeToggle.addEventListener('click', switchReadingMode);
+    $('#mobile-theme-toggle').addEventListener('click', switchReadingMode);
 
     // ====================================================
     // SWIFTIAN APHORISM MACHINE ("Vex the World")
@@ -1570,7 +1580,6 @@
     // ====================================================
     const citationModal = $('#citation-modal');
     const citeBtn = $('#cite-btn');
-    const mobileCiteBtn = $('#mobile-cite-btn');
     const closeCiteModal = $('#close-cite-modal');
     const copyCitationBtn = $('#copy-citation-btn');
     const citeText = $('#cite-text');
@@ -1593,7 +1602,6 @@
         citationModal.setAttribute('aria-hidden', 'true');
     }
     if (citeBtn) citeBtn.addEventListener('click', openCiteModal);
-    if (mobileCiteBtn) mobileCiteBtn.addEventListener('click', () => { closeMenu(); openCiteModal(); });
     if (closeCiteModal) closeCiteModal.addEventListener('click', hideCiteModal);
     if (citationModal) {
         citationModal.addEventListener('click', e => {

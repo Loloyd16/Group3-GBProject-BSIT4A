@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="academic">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,8 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- Flags the page as scripted before first paint (hidden-until-revealed states depend on it) -->
-    <script>document.documentElement.classList.add('js');</script>
+    <!-- Flags the page as scripted before first paint (hidden-until-revealed states depend on it)
+         and restores a saved Midnight Deck choice so the page never flashes light first -->
+    <script>
+        document.documentElement.classList.add('js');
+        try { if (localStorage.getItem('gt_reading_mode') === 'midnight') document.documentElement.dataset.theme = 'midnight'; } catch (e) {}
+    </script>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -129,10 +133,7 @@
                     <circle cx="12" cy="12" r="10" stroke-width="1.4"/>
                     <polygon points="12,4 14.5,10.5 21,12 14.5,13.5 12,20 9.5,13.5 3,12 9.5,10.5" fill="currentColor" fill-opacity=".18" stroke-width="1.1"/>
                 </svg>
-                <span>
-                    <span class="brand-name">Gulliver’s Travels</span>
-                    <span class="brand-sub">An Academic Book Report &amp; Satirical Analysis</span>
-                </span>
+                <span class="brand-name">Gulliver’s Travels</span>
             </a>
 
             <nav class="nav-links" aria-label="Main">
@@ -152,29 +153,12 @@
                     </div>
                 </div>
                 <a href="#summary">Summary</a>
-                <a href="#cartography">Sea Chart</a>
                 <a href="#plot">Plot</a>
-                <a href="#psychology">Descent Tracker</a>
-                <div class="dd">
-                    <button type="button" aria-expanded="false" id="places-dropdown-btn">Places
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M19 9l-7 7-7-7"/></svg>
-                    </button>
-                    <div class="dd-menu">
-                        <a href="#places" class="dd-all">The 4 Fantastic Realms</a>
-                        <a href="#lilliput">1. Lilliput <small>The Land of Six-Inch Tiny Men</small></a>
-                        <a href="#brobdingnag">2. Brobdingnag <small>The Land of Colossal Giants</small></a>
-                        <a href="#laputa">3. Laputa <small>The Floating Sky Island of Scholars</small></a>
-                        <a href="#houyhnhnms">4. Land of the Houyhnhnms <small>The Realm of Virtuous Horses</small></a>
-                        <a href="#scale-simulator">Optical Scale Simulator <small>1:12 vs 12:1 Inversion</small></a>
-                    </div>
-                </div>
-                <a href="#matrix">Voyage Matrix</a>
-                <a href="#references">References</a>
                 <a href="#satire-lab">Satire Lab</a>
                 <a href="#glossary">Glossary</a>
                 <a href="#main-lesson" class="btn">Main Lesson</a>
 
-                <!-- Interactive Nav Controls: Audio, Theme & Cite -->
+                <!-- Interactive Nav Controls: Audio & Reading Mode -->
                 <div class="nav-tools">
                     <button id="audio-toggle" class="tool-btn" type="button" title="Toggle Sea Ambiance" aria-label="Toggle Sea Ambiance" aria-pressed="false">
                         <span class="audio-waves" aria-hidden="true">
@@ -182,10 +166,10 @@
                         </span>
                         <svg class="audio-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5zM15.54 8.46a5 5 0 0 1 0 7.07M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
                     </button>
-                    <button id="theme-toggle" class="tool-btn" type="button" title="Switch Reading Mode" aria-label="Switch Reading Mode">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    <button id="theme-toggle" class="tool-btn" type="button" title="Switch to Midnight Deck" aria-label="Switch to Midnight Deck">
+                        <svg class="mode-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+                        <svg class="mode-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
                     </button>
-                    <button id="cite-btn" class="tool-btn cite-pill" type="button" title="Cite This Academic Report">Cite Report</button>
                 </div>
             </nav>
 
@@ -215,25 +199,7 @@
             </div>
         </div>
         <a href="#summary" class="mobile-nav-link">Summary</a>
-        <a href="#cartography" class="mobile-nav-link">1726 Nautical Voyage Chart</a>
         <a href="#plot" class="mobile-nav-link">Plot Structure</a>
-        <a href="#psychology" class="mobile-nav-link">Gulliver’s Descent Tracker</a>
-        <div class="acc">
-            <button id="mobile-places-btn" type="button">
-                <span>Places</span>
-                <svg id="mobile-place-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
-            </button>
-            <div id="mobile-places-list" class="acc-list hidden">
-                <a href="#places" class="mobile-nav-link">All Four Realms</a>
-                <a href="#lilliput" class="mobile-nav-link">Part I: Lilliput</a>
-                <a href="#brobdingnag" class="mobile-nav-link">Part II: Brobdingnag</a>
-                <a href="#laputa" class="mobile-nav-link">Part III: Laputa</a>
-                <a href="#houyhnhnms" class="mobile-nav-link">Part IV: Houyhnhnmland</a>
-                <a href="#scale-simulator" class="mobile-nav-link">Optical Scale Simulator</a>
-            </div>
-        </div>
-        <a href="#matrix" class="mobile-nav-link">Voyage Comparison Matrix</a>
-        <a href="#references" class="mobile-nav-link">Real-Life References</a>
         <a href="#satire-lab" class="mobile-nav-link">Satire Lab &amp; Quiz</a>
         <a href="#glossary" class="mobile-nav-link">Swiftian Lexicon &amp; Etymology</a>
         <a href="#main-lesson" class="mobile-nav-link btn drawer-cta">Main Lesson: The Cost of Arrogance</a>
@@ -245,11 +211,7 @@
             </button>
             <button id="mobile-theme-toggle" class="tool-btn-mobile" type="button">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2"/></svg>
-                <span id="mobile-theme-text">Reading Mode: Parchment</span>
-            </button>
-            <button id="mobile-cite-btn" class="tool-btn-mobile" type="button">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
-                <span>Cite This Report (MLA/APA)</span>
+                <span id="mobile-theme-text">Switch to Midnight Deck</span>
             </button>
         </div>
     </div>
@@ -645,7 +607,7 @@
                                 <div class="chart-parchment">
                                     <svg class="chart-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                         <!-- Rhumb navigation lines -->
-                                        <g stroke="rgba(138, 101, 38, 0.22)" stroke-width="0.8" fill="none">
+                                        <g class="chart-rhumb" stroke="rgba(138, 101, 38, 0.22)" stroke-width="0.8" fill="none">
                                             <line x1="300" y1="200" x2="0" y2="50"/>
                                             <line x1="300" y1="200" x2="600" y2="50"/>
                                             <line x1="300" y1="200" x2="0" y2="350"/>
@@ -657,7 +619,7 @@
                                         </g>
 
                                         <!-- Compass Rose -->
-                                        <g transform="translate(480, 90)">
+                                        <g class="chart-compass" transform="translate(480, 90)">
                                             <circle cx="0" cy="0" r="42" fill="none" stroke="rgba(138, 101, 38, 0.4)" stroke-width="1.2"/>
                                             <polygon points="0,-40 6,-12 0,-18 -6,-12" fill="#b33d28"/>
                                             <polygon points="0,40 6,12 0,18 -6,12" fill="#8a6526"/>
@@ -676,7 +638,7 @@
                                         <path id="route-line-4" class="chart-route" d="M120 110 Q260 320 400 340" fill="none" stroke="#2f6b4f" stroke-width="2.5" stroke-dasharray="6,4"/>
 
                                         <!-- Origin: England -->
-                                        <circle cx="120" cy="110" r="5" fill="#1b2326"/>
+                                        <circle class="chart-origin-dot" cx="120" cy="110" r="5" fill="#1b2326"/>
                                         <text x="120" y="98" text-anchor="middle" font-family="Instrument Sans, sans-serif" font-size="10" font-weight="600" fill="#1b2326" id="chart-origin-label">Bristol, England</text>
 
                                         <!-- Destination Waypoints -->
@@ -1804,6 +1766,7 @@
                             <a href="#satire-lab">Satire Lab &amp; Quiz</a>
                             <a href="#main-lesson">Main Lesson</a>
                             <a href="#bibliography">Works Cited</a>
+                            <button id="cite-btn" class="footer-cite" type="button">Cite This Report</button>
                         </nav>
                     </div>
 
