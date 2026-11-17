@@ -123,7 +123,6 @@
                 <rect x="78" y="304" width="12" height="9"/><rect x="98" y="305" width="12" height="9"/><rect x="118" y="306" width="12" height="9"/>
             </g>
             <!-- stern lantern (lit at night) -->
-            <circle id="lantern-glow" cx="58" cy="284" r="16" fill="#ffd690" opacity="0"/>
             <circle cx="58" cy="284" r="5" fill="#ffd690"/>
             <!-- GULLIVER at the bow -->
             <g id="gulliver">
@@ -149,6 +148,47 @@
                     <circle cx="568" cy="241" r="4" fill="#e6c9a8"/>
                     <circle id="scope-tip" cx="608" cy="237" r="0.1" fill="none"/>
                 </g>
+            </g>
+        </svg>
+        <!-- SHIP LIGHTS: a layer that rides exactly on the ship and glows after dark.
+             Kept out of #ship so the night dimming on the hull does not dim the lights. -->
+        <svg class="ship ship-lights" id="ship-lights" viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="lamp-glow">
+                    <stop offset="0" stop-color="#ffe7a8" stop-opacity=".95"/>
+                    <stop offset=".35" stop-color="#ffbe5c" stop-opacity=".45"/>
+                    <stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/>
+                </radialGradient>
+            </defs>
+            <!-- warm wash from the deck lanterns over the crew and the foot of the sails -->
+            <ellipse class="lamp" cx="300" cy="306" rx="225" ry="64" fill="url(#lamp-glow)" opacity=".58"/>
+            <!-- string lights along the stays (bulbs added in main.js) -->
+            <g id="ship-bulbs"></g>
+            <!-- lit stern cabin windows and gunports -->
+            <ellipse class="lamp" cx="104" cy="309" rx="42" ry="17" fill="url(#lamp-glow)" opacity=".7"/>
+            <g fill="#ffcf75">
+                <rect x="78" y="304" width="12" height="9"/><rect x="98" y="305" width="12" height="9"/><rect x="118" y="306" width="12" height="9"/>
+                <rect x="196" y="356" width="12" height="10"/><rect x="250" y="358" width="12" height="10"/><rect x="304" y="359" width="12" height="10"/>
+                <rect x="358" y="359" width="12" height="10"/><rect x="412" y="358" width="12" height="10"/><rect x="466" y="356" width="12" height="10"/>
+            </g>
+            <g fill="url(#lamp-glow)" opacity=".75">
+                <circle class="lamp" cx="202" cy="361" r="15"/><circle class="lamp" cx="256" cy="363" r="15"/><circle class="lamp" cx="310" cy="364" r="15"/>
+                <circle class="lamp" cx="364" cy="364" r="15"/><circle class="lamp" cx="418" cy="363" r="15"/><circle class="lamp" cx="472" cy="361" r="15"/>
+            </g>
+            <!-- lanterns: stern, deck (between the crew), mastheads, bowsprit -->
+            <g>
+                <circle class="lamp" cx="58" cy="284" r="30" fill="url(#lamp-glow)"/>
+                <circle class="lamp" cx="242" cy="318" r="26" fill="url(#lamp-glow)"/>
+                <circle class="lamp" cx="309" cy="320" r="26" fill="url(#lamp-glow)"/>
+                <circle class="lamp" cx="379" cy="322" r="26" fill="url(#lamp-glow)"/>
+                <circle class="lamp" cx="300" cy="58" r="24" fill="url(#lamp-glow)"/>
+                <circle class="lamp" cx="455" cy="92" r="22" fill="url(#lamp-glow)"/>
+                <circle class="lamp" cx="668" cy="268" r="24" fill="url(#lamp-glow)"/>
+            </g>
+            <g fill="#fff4d2">
+                <circle cx="58" cy="284" r="4.5"/>
+                <rect x="239" y="313" width="6" height="9" rx="1.5"/><rect x="306" y="315" width="6" height="9" rx="1.5"/><rect x="376" y="317" width="6" height="9" rx="1.5"/>
+                <circle cx="300" cy="58" r="3.8"/><circle cx="455" cy="92" r="3.6"/><circle cx="668" cy="268" r="3.8"/>
             </g>
         </svg>
         <canvas id="sea-fore"></canvas>
@@ -280,13 +320,7 @@
 
                 <p class="hero-aside statement" id="hero-aside">Land, far off. Gulliver raises his glass.</p>
 
-                <div class="scroll-cue fade-in" id="scroll-cue"><span>Scroll to set sail</span><i></i></div>
-
-                <p class="hero-meta fade-in" id="hero-meta">
-                    <span>Travels into Several Remote Nations of the World</span>
-                    <span>In Four Parts</span>
-                    <span>An In-Depth Literary &amp; Historical Analysis</span>
-                </p>
+                <div class="scroll-cue fade-in" id="scroll-cue"><span>Scroll down</span><i></i></div>
 
                 <!-- The telescope view -->
                 <div class="lens" id="lens">

@@ -45,7 +45,27 @@
     // ====================================================
     const back = $('#sea-back'), fore = $('#sea-fore');
     const bx = back.getContext('2d'), fx = fore.getContext('2d');
-    const ship = $('#ship'), scope = $('#scope'), head = $('#gulliver-head'), lantern = $('#lantern-glow');
+    const ship = $('#ship'), scope = $('#scope'), head = $('#gulliver-head'), lights = $('#ship-lights');
+    // string lights: bulbs hung along the stays with a little sag
+    const bulbs = [];
+    {
+        const NS = 'http://www.w3.org/2000/svg', g = $('#ship-bulbs');
+        const stays = [[300, 44, 70, 298], [300, 44, 455, 84], [455, 84, 674, 268], [300, 44, 598, 312]];
+        for (const [x1, y1, x2, y2] of stays) {
+            const n = Math.round(Math.hypot(x2 - x1, y2 - y1) / 21);
+            for (let j = 1; j < n; j++) {
+                const t = j / n, sag = Math.sin(t * Math.PI) * 10;
+                const c = document.createElementNS(NS, 'circle');
+                c.setAttribute('cx', (x1 + (x2 - x1) * t).toFixed(1));
+                c.setAttribute('cy', (y1 + (y2 - y1) * t + sag).toFixed(1));
+                c.setAttribute('r', '3.2');
+                c.setAttribute('fill', bulbs.length % 3 === 1 ? '#ffd27a' : '#fff1c8');
+                g.appendChild(c);
+                bulbs.push(c);
+            }
+        }
+    }
+    const lamps = $$('#ship-lights .lamp').map(el => ({ el, base: +(el.getAttribute('opacity') || 1) }));
     const crew = $$('.crew-head').map((el, i) => ({ el, cx: +el.dataset.cx, cy: +el.dataset.cy, ph: i * 1.37 }));
     let W = 0, H = 0, DPR = 1, U = 1, AMP = 1;
 
@@ -341,8 +361,23 @@
             const tilt = Math.sin(T * 1.3 + c.ph * 2) * 9 - rot * 1.4;
             c.el.setAttribute('transform', `translate(${dx.toFixed(2)} ${dy.toFixed(2)}) rotate(${tilt.toFixed(2)} ${c.cx} ${c.cy})`);
         }
-        lantern.setAttribute('opacity', (S.night * (.5 + .2 * Math.sin(T * 3))).toFixed(2));
-        ship.style.filter = S.night > .02 ? `brightness(${(1 - S.night * .55).toFixed(2)})` : '';
+        // after dark the hull dims only a little, and the lights layer rides on top of it
+        ship.style.filter = S.night > .02 ? `brightness(${(1 - S.night * .28).toFixed(2)})` : '';
+        const lit = S.night > .02;
+        lights.style.visibility = lit ? 'visible' : 'hidden';
+        if (lit) {
+            lights.style.width = ship.style.width;
+            lights.style.transform = ship.style.transform;
+            lights.style.opacity = S.night.toFixed(3);
+            lamps.forEach((l, i) => {
+                const flicker = .9 + .1 * Math.sin(T * 6.3 + i * 2.1) * Math.sin(T * 2.7 + i);
+                l.el.setAttribute('opacity', (l.base * flicker).toFixed(3));
+            });
+            bulbs.forEach((b, i) => {
+                const tw = Math.sin(T * 1.8 + i * 1.9);
+                b.setAttribute('opacity', (.55 + .45 * tw * tw).toFixed(2));
+            });
+        }
     }
 
     // ====================================================
@@ -351,7 +386,7 @@
     const hero = $('#home');
     const lines = $$('.hero-title .ln');
     const heroDek = $('.hero-dek'), heroActions = $('.hero-actions');
-    const aside = $('#hero-aside'), cue = $('#scroll-cue'), meta = $('#hero-meta');
+    const aside = $('#hero-aside'), cue = $('#scroll-cue');
     const lens = $('#lens'), lensImg = $('#lens-img'), lensQuote = $('#lens-quote'), ring = $('#lens-ring');
     let heroTop = 0, heroLen = 1;
 
@@ -368,7 +403,7 @@
         heroDek.style.opacity = heroActions.style.opacity = 1 - out2;
         heroActions.style.pointerEvents = out2 > .5 ? 'none' : '';
         heroDek.style.transform = heroActions.style.transform = `translateY(${-out2 * 30}px)`;
-        cue.style.opacity = meta.style.opacity = 1 - range(hp, 0, .05);
+        cue.style.opacity = 1 - range(hp, 0, .05);
         const a = range(hp, .22, .3) * (1 - range(hp, .48, .55));
         aside.style.opacity = a;
         aside.style.visibility = a <= 0 ? 'hidden' : '';
