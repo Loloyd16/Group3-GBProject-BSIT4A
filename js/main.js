@@ -46,6 +46,7 @@
     const back = $('#sea-back'), fore = $('#sea-fore');
     const bx = back.getContext('2d'), fx = fore.getContext('2d');
     const ship = $('#ship'), scope = $('#scope'), head = $('#gulliver-head'), lantern = $('#lantern-glow');
+    const crew = $$('.crew-head').map((el, i) => ({ el, cx: +el.dataset.cx, cy: +el.dataset.cy, ph: i * 1.37 }));
     let W = 0, H = 0, DPR = 1, U = 1, AMP = 1;
 
     function resize() {
@@ -333,6 +334,13 @@
         headAngle = clamp(scopeAngle, -40, 10) * .45 * raise;
         scope.setAttribute('transform', `rotate(${scopeAngle.toFixed(2)} 543 256)`);
         head.setAttribute('transform', `rotate(${headAngle.toFixed(2)} 538 248)`);
+        // the crew bob over the rail, sway along it, and lean against the roll
+        for (const c of crew) {
+            const dx = Math.sin(T * .6 + c.ph) * 4;
+            const dy = Math.sin(T * 2.1 + c.ph * 1.6) * 2.6 - Math.max(0, Math.sin(T * .9 + c.ph * 2.3)) * 4;
+            const tilt = Math.sin(T * 1.3 + c.ph * 2) * 9 - rot * 1.4;
+            c.el.setAttribute('transform', `translate(${dx.toFixed(2)} ${dy.toFixed(2)}) rotate(${tilt.toFixed(2)} ${c.cx} ${c.cy})`);
+        }
         lantern.setAttribute('opacity', (S.night * (.5 + .2 * Math.sin(T * 3))).toFixed(2));
         ship.style.filter = S.night > .02 ? `brightness(${(1 - S.night * .55).toFixed(2)})` : '';
     }

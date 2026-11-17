@@ -80,6 +80,37 @@
                 <animate attributeName="d" dur="2.2s" repeatCount="indefinite"
                     values="M58 240 Q40 236 22 244 L24 268 Q42 260 60 266 Z;M58 240 Q40 246 20 240 L22 264 Q42 270 60 266 Z;M58 240 Q40 236 22 244 L24 268 Q42 260 60 266 Z"/>
             </path>
+            <!-- CREW: Group 3's heads peeking over the rail (bobbed and tilted in main.js) -->
+            <defs>
+                <clipPath id="crew-clip" clipPathUnits="objectBoundingBox"><circle cx=".5" cy=".5" r=".5"/></clipPath>
+            </defs>
+            <g id="crew">
+                <g class="crew-head" data-cx="104" data-cy="273">
+                    <circle cx="104" cy="273" r="27.5" fill="#2a2420"/>
+                    <image href="assets/images/members/heads/cuario.jpg" x="79" y="248" width="50" height="50" clip-path="url(#crew-clip)" preserveAspectRatio="xMidYMid slice"/>
+                    <circle cx="104" cy="273" r="25" fill="none" stroke="#efe6d3" stroke-width="1.8"/>
+                </g>
+                <g class="crew-head" data-cx="212" data-cy="303">
+                    <circle cx="212" cy="303" r="27.5" fill="#2a2420"/>
+                    <image href="assets/images/members/heads/loterte.jpg" x="187" y="278" width="50" height="50" clip-path="url(#crew-clip)" preserveAspectRatio="xMidYMid slice"/>
+                    <circle cx="212" cy="303" r="25" fill="none" stroke="#efe6d3" stroke-width="1.8"/>
+                </g>
+                <g class="crew-head" data-cx="272" data-cy="305">
+                    <circle cx="272" cy="305" r="27.5" fill="#2a2420"/>
+                    <image href="assets/images/members/heads/napay.jpg" x="247" y="280" width="50" height="50" clip-path="url(#crew-clip)" preserveAspectRatio="xMidYMid slice"/>
+                    <circle cx="272" cy="305" r="25" fill="none" stroke="#efe6d3" stroke-width="1.8"/>
+                </g>
+                <g class="crew-head" data-cx="346" data-cy="307">
+                    <circle cx="346" cy="307" r="27.5" fill="#2a2420"/>
+                    <image href="assets/images/members/heads/rebancos.jpg" x="321" y="282" width="50" height="50" clip-path="url(#crew-clip)" preserveAspectRatio="xMidYMid slice"/>
+                    <circle cx="346" cy="307" r="25" fill="none" stroke="#efe6d3" stroke-width="1.8"/>
+                </g>
+                <g class="crew-head" data-cx="412" data-cy="309">
+                    <circle cx="412" cy="309" r="27.5" fill="#2a2420"/>
+                    <image href="assets/images/members/heads/relos.jpg" x="387" y="284" width="50" height="50" clip-path="url(#crew-clip)" preserveAspectRatio="xMidYMid slice"/>
+                    <circle cx="412" cy="309" r="25" fill="none" stroke="#efe6d3" stroke-width="1.8"/>
+                </g>
+            </g>
             <!-- hull -->
             <path d="M60 296 L152 300 L152 322 L516 334 Q566 332 606 306 L600 336 Q574 398 488 414 L170 416 Q102 410 82 366 Q66 330 60 296 Z" fill="#2a2420"/>
             <path d="M74 346 Q300 360 592 346" stroke="#8a6526" stroke-width="7" fill="none"/>
