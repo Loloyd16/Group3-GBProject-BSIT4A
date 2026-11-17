@@ -387,7 +387,17 @@
     const lines = $$('.hero-title .ln');
     const heroDek = $('.hero-dek'), heroActions = $('.hero-actions');
     const aside = $('#hero-aside'), cue = $('#scroll-cue');
-    const lens = $('#lens'), lensImg = $('#lens-img'), lensQuote = $('#lens-quote'), ring = $('#lens-ring');
+    const lens = $('#lens'), lensImg = $('#lens-img'), lensQuote = $('#lens-quote');
+    const book = $('#book'), spread = $('#book-spread'), bookBack = $('#book-backdrop');
+    let bookStyled = null;
+    // what turns, in order: the cover, then the title-page leaf, then the Part I leaf.
+    // z = how far each sits above the page below; turning flips it underneath on the left.
+    const [leafPart, leafTitle] = $$('.bk-leaf');
+    const flips = [
+        { el: $('.bk-cover'), z: 6, from: .58, to: .66 },
+        { el: leafTitle, z: 4, from: .655, to: .73 },
+        { el: leafPart, z: 2, from: .715, to: .79 }
+    ].map(f => ({ ...f, shades: $$('.bk-shade', f.el) }));
     let heroTop = 0, heroLen = 1;
 
     function heroFrame(hp) {
@@ -415,22 +425,49 @@
         S.isl[2] = ease(range(hp, .16, .4));
         S.sunAlt = lerp(.08, .22, hp);
 
-        // lens opens from the flying island
-        const P = islandPositions().lap;
-        const diag = Math.hypot(Math.max(P.x, W - P.x), Math.max(P.y, H - P.y));
-        const lp = ease(range(hp, .5, .9));
-        const r = lp * diag * 1.04;
-        lens.style.clipPath = `circle(${r.toFixed(1)}px at ${P.x.toFixed(1)}px ${P.y.toFixed(1)}px)`;
-        lens.style.visibility = r < 1 ? 'hidden' : 'visible';
-        lensImg.style.transform = `scale(${lerp(1.5, 1.02, lp)})`;
-        lensImg.style.transformOrigin = '48% 52%';
-        const ringOn = r > 1 && r < diag;
-        ring.style.opacity = ringOn ? 1 : 0;
-        if (ringOn) {
-            ring.style.width = ring.style.height = (r * 2 + 20) + 'px';
-            ring.style.transform = `translate(${P.x - r - 10}px, ${P.y - r - 10}px)`;
+        // THE BOOK: rises over the sea → the cover opens → two leaves turn → we dive into Plate I
+        const enter = ease(range(hp, .48, .58));
+        const open = ease(range(hp, .58, .66));
+        const settle = ease(range(hp, .58, .79));
+        const dive = ease(range(hp, .79, .93));
+        const into = range(hp, .87, .93);           // the plate becomes the full-page view
+        // never show the book unstyled (e.g. a stale cached stylesheet): skip straight to the full-page view
+        if (bookStyled === null) bookStyled = getComputedStyle(spread).transformStyle === 'preserve-3d';
+        const bookOn = bookStyled && enter > 0 && into < 1;
+        if (book.hidden === bookOn) book.hidden = !bookOn;
+        book.style.visibility = bookOn ? 'visible' : 'hidden';
+        bookBack.style.visibility = bookOn ? 'visible' : 'hidden';
+        bookBack.style.opacity = (enter * (1 - into)).toFixed(3);
+        if (bookOn) {
+            const ph = Math.min(H * .64, W * .92 / 2 / .7), pw = ph * .7;   // one page
+            spread.style.width = 2 * pw + 'px';
+            spread.style.height = ph + 'px';
+            spread.style.margin = `${-ph / 2}px 0 0 ${-pw}px`;
+            spread.style.fontSize = (pw / 22).toFixed(2) + 'px';
+            // Plate I sits on the right page: centre .5 page right of the spine, .09 page above centre
+            const dx = .5 * pw, dy = -.09 * ph;
+            const fill = Math.max(W / (.82 * pw), H / (.62 * ph)) * 1.05;
+            const s = lerp(.55, 1, enter) * Math.pow(fill, dive);
+            const tx = -s * (pw / 2) * (1 - open) - s * dx * dive;   // closed: centre the cover; diving: centre the plate
+            const ty = (1 - enter) * H * .4 - s * dy * dive;
+            const rx = lerp(34, 12, enter) * (1 - settle);
+            const rz = lerp(-9, 0, enter);
+            spread.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${s.toFixed(4)}) rotateX(${rx.toFixed(2)}deg) rotateZ(${rz.toFixed(2)}deg)`;
+            spread.style.opacity = enter < 1 ? enter.toFixed(3) : '';
+            for (const f of flips) {
+                const a = ease(range(hp, f.from, f.to));
+                f.el.style.transform = `rotateY(${(-180 * a).toFixed(2)}deg) translateZ(${f.z}px)`;
+                const sh = (Math.sin(a * Math.PI) * .9).toFixed(3);
+                for (const el of f.shades) el.style.opacity = sh;
+            }
         }
-        const q = range(hp, .8, .92);
+        lens.style.opacity = into.toFixed(3);
+        lens.style.visibility = into > 0 ? 'visible' : 'hidden';
+        lensImg.style.transform = `scale(${lerp(1.14, 1.02, range(hp, .87, 1))})`;
+        lensImg.style.transformOrigin = '48% 52%';
+
+        const P = islandPositions().lap;   // the telescope still tracks the flying island
+        const q = range(hp, .91, .97);
         lensQuote.style.opacity = q;
         lensQuote.style.transform = `translateY(${(1 - q) * 30}px)`;
         return P;

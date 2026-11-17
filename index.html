@@ -17,7 +17,8 @@
         try { if (localStorage.getItem('gt_reading_mode') === 'midnight') document.documentElement.dataset.theme = 'midnight'; } catch (e) {}
     </script>
 
-    <link rel="stylesheet" href="css/style.css">
+    <!-- ?v= forces browsers to fetch fresh files after an update; bump it whenever css/js change -->
+    <link rel="stylesheet" href="css/style.css?v=20261117b">
 </head>
 <body>
 
@@ -322,7 +323,83 @@
 
                 <div class="scroll-cue fade-in" id="scroll-cue"><span>Scroll down</span><i></i></div>
 
-                <!-- The telescope view -->
+                <!-- THE BOOK: rises over the sea, opens, turns its pages, and we dive into the plate.
+                     Every transform is scroll-driven in main.js (heroFrame). -->
+                <div class="book-backdrop" id="book-backdrop" aria-hidden="true"></div>
+                <div class="book" id="book" aria-hidden="true" hidden>
+                    <div class="book-spread" id="book-spread">
+                        <!-- the page we land on: Plate I -->
+                        <div class="bk-page bk-base">
+                            <div class="bk-face bk-paper bk-right">
+                                <figure class="bk-plate"><img src="assets/images/hero_banner.jpg" alt=""></figure>
+                                <p class="bk-caption">Plate I. &nbsp;The Voyage begins.</p>
+                                <div class="bk-lines bk-lines--short"></div>
+                                <span class="bk-folio">3</span>
+                            </div>
+                            <div class="bk-edge"></div>
+                        </div>
+                        <!-- leaf 2: Part I opening / text -->
+                        <div class="bk-page bk-leaf">
+                            <div class="bk-face bk-front bk-paper bk-right">
+                                <p class="bk-part">PART I.</p>
+                                <p class="bk-chap">A Voyage to <span>LILLIPUT</span>.</p>
+                                <p class="bk-chno">CHAPTER I.</p>
+                                <p class="bk-text"><span class="bk-drop">M</span>y father had a small estate in Nottinghamshire; I was the third of five sons.</p>
+                                <div class="bk-lines"></div>
+                                <span class="bk-folio">1</span>
+                                <i class="bk-shade"></i>
+                            </div>
+                            <div class="bk-face bk-back bk-paper bk-left">
+                                <div class="bk-lines bk-lines--full"></div>
+                                <span class="bk-folio">2</span>
+                                <i class="bk-shade"></i>
+                            </div>
+                        </div>
+                        <!-- leaf 1: the 1726 title page / frontispiece -->
+                        <div class="bk-page bk-leaf">
+                            <div class="bk-face bk-front bk-paper bk-right bk-title-page">
+                                <p class="tp-md">TRAVELS</p>
+                                <p class="tp-xs">INTO SEVERAL</p>
+                                <p class="tp-lg">REMOTE NATIONS</p>
+                                <p class="tp-xs">OF THE</p>
+                                <p class="tp-lg">WORLD.</p>
+                                <p class="tp-it">In Four Parts.</p>
+                                <p class="tp-sm">By LEMUEL GULLIVER,</p>
+                                <p class="tp-xxs">First a Surgeon, and then a Captain of several Ships.</p>
+                                <hr>
+                                <p class="tp-sm">LONDON:</p>
+                                <p class="tp-xxs">Printed for Benj. Motte. MDCCXXVI.</p>
+                                <i class="bk-shade"></i>
+                            </div>
+                            <div class="bk-face bk-back bk-paper bk-left">
+                                <figure class="bk-portrait"><img src="assets/images/swift_portrait.jpg" alt=""></figure>
+                                <p class="bk-caption">Jonathan Swift, D.D., Dean of St. Patrick’s</p>
+                                <i class="bk-shade"></i>
+                            </div>
+                        </div>
+                        <!-- the cover -->
+                        <div class="bk-page bk-cover">
+                            <div class="bk-face bk-front bk-cover-front">
+                                <svg class="bk-orn" viewBox="0 0 120 12" aria-hidden="true"><path d="M0 6H50M70 6H120" stroke="currentColor" stroke-width="1.5"/><path d="M60 0L66 6L60 12L54 6Z" fill="currentColor"/></svg>
+                                <p class="bk-title">Gulliver’s<br>Travels</p>
+                                <svg class="bk-orn" viewBox="0 0 120 12" aria-hidden="true"><path d="M0 6H50M70 6H120" stroke="currentColor" stroke-width="1.5"/><path d="M60 0L66 6L60 12L54 6Z" fill="currentColor"/></svg>
+                                <p class="bk-by">By Lemuel Gulliver</p>
+                                <p class="bk-year">1726</p>
+                                <i class="bk-shade"></i>
+                            </div>
+                            <div class="bk-face bk-back bk-endpaper">
+                                <div class="bk-exlibris">
+                                    <span>Ex Libris</span>
+                                    <b>Group 3</b>
+                                    <small>BSIT 4A</small>
+                                </div>
+                                <i class="bk-shade"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- The full-page view we land in -->
                 <div class="lens" id="lens">
                     <img src="assets/images/hero_banner.jpg" alt="Antique leather-bound edition of Gulliver's Travels resting upon an 18th-century sea chart with brass navigational instruments and model ship" id="lens-img">
                     <div class="lens-scrim"></div>
@@ -331,7 +408,6 @@
                         <cite>— Lemuel Gulliver, First Surgeon of Several Ships</cite>
                     </div>
                 </div>
-                <div class="lens-ring" id="lens-ring"></div>
             </div>
         </section>
 
@@ -1899,6 +1975,6 @@
     <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
 
     <!-- Voyage Engine (Animations, Canvas Sea Scene, Scroll Interactions) -->
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20261117b"></script>
 </body>
 </html>
